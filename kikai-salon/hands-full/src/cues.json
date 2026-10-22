@@ -1,0 +1,79 @@
+{
+ "fps": 30,
+ "vo": {
+  "s1": 12,
+  "s2": 114,
+  "k1": 206,
+  "c1": 254,
+  "k2": 335,
+  "s4": 516,
+  "s5": 692,
+  "s6": 796
+ },
+ "scenes": {
+  "rush": {
+   "start": 0,
+   "dur": 108,
+   "fade": 0
+  },
+  "missed": {
+   "start": 108,
+   "dur": 92,
+   "fade": 4
+  },
+  "answers": {
+   "start": 200,
+   "dur": 304,
+   "fade": 14
+  },
+  "afterHours": {
+   "start": 490,
+   "dur": 186,
+   "fade": 14
+  },
+  "morning": {
+   "start": 662,
+   "dur": 124,
+   "fade": 14
+  },
+  "endCard": {
+   "start": 770,
+   "dur": 206,
+   "fade": 16
+  }
+ },
+ "sfx": {
+  "ringStart": 78,
+  "glow": 174,
+  "splitAt": 308,
+  "write1": 341,
+  "closeAt": 400,
+  "write2": 452,
+  "overlay3": 466,
+  "lockUp": 536,
+  "night": 560,
+  "nightGlows": [
+   576,
+   612,
+   646
+  ],
+  "doorBell": 670,
+  "cupDown": 704,
+  "overhead": 714,
+  "overlay5": 728,
+  "orb": 770,
+  "card": 792,
+  "finalChord": 792
+ },
+ "total": 976,
+ "voLen": {
+  "s1": 82,
+  "s2": 55,
+  "k1": 44,
+  "c1": 75,
+  "k2": 147,
+  "s4": 135,
+  "s5": 82,
+  "s6": 160
+ }
+}

@@ -1,0 +1,9 @@
+node_modules/
+out/
+tools/tts/model/
+tools/tts/voices*.npz
+*.cjs
+__pycache__/
+.DS_Store
+kikai-salon/hands-full/public/grain*.png
+kikai-salon/hook-storyboards/public/grain*.png

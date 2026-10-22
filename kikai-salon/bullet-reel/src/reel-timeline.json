@@ -1,0 +1,19 @@
+{
+ "fps": 30,
+ "stall": 228,
+ "v": {"v1": 234, "v2": 312, "v3": 374, "v4": 450, "v5": 564, "v6": 690, "v7": 784},
+ "wireIn": 302,
+ "wireOut": 370,
+ "shrink": 440,
+ "rings": [464, 494, 524],
+ "missed": 548,
+ "kikai": 560,
+ "booked": 600,
+ "zoomBack": 624,
+ "resume": 641,
+ "impact": 665,
+ "card": 685,
+ "cta": 728,
+ "loopOut": 832,
+ "total": 848
+}

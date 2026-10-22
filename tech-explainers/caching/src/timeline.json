@@ -1,0 +1,21 @@
+{
+ "hook": 0,
+ "series": 156,
+ "fix": 244,
+ "hitrate": 536,
+ "ttl": 718,
+ "lru": 982,
+ "layers": 1153,
+ "recap": 1358,
+ "total": 1555,
+ "v": {
+  "hook": 4,
+  "series": 156,
+  "fix": 250,
+  "hitrate": 542,
+  "ttl": 724,
+  "lru": 988,
+  "layers": 1159,
+  "recap": 1364
+ }
+}

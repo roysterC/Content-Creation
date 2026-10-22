@@ -1,0 +1,8 @@
+{
+ "private": true,
+ "dependencies": {
+  "kokoro-js": "^1.2.1",
+  "kokoro-q8-shards": "^1.0.0"
+ },
+ "name": "content-creation-tts"
+}
