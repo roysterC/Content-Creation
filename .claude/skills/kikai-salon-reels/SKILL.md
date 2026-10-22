@@ -36,6 +36,7 @@ Use with `reel-production` (pipeline, voice, mix, checks). Projects: `kikai-salo
 - `kinetic-ad/`: the first kinetic-type promo, with VO and music-only versions.
 - `hands-full/`: the "Hands Full" 30s illustrated ad (stylist mid-colour while the phone rings).
 - `hook-storyboards/`: six still storyboards of anticipation hooks (`./still.sh HookN`).
+- `free-consult/`: 29s offer reel for a **free consultation**. Its CTA is **Comment “FREE” for a free consultation** (keyword FREE, not BOOK, so it needs its own auto-DM). Reuses the Hands Full art. Beats: frame-0 headline "Salon owners: how many calls did you miss today?" over the busy salon with the phone ringing → missed-call cards stack with a red counter, one thunk per card → cards fly to "The Salon Down the Road" and get booked there → the same desk shot, now answered by Kikai (house music on the beat) → after hours, then the diary filling → the drop lands on "FREE consultation" → end card. `plan.py` puts the drop at the pause in line 6 and puts the switch and end card on the 120 BPM grid. `./storyboard.sh [frames]` renders a stills sheet.
 
 ## Results log and lessons
 **Bullet reel v7 (Instagram, first ~2 hours):**

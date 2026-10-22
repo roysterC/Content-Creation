@@ -12,7 +12,7 @@ if [ ! -s tools/tts/model/kokoro-q8.onnx ]; then
   cat tools/tts/node_modules/kokoro-q8-shards/kokoro-q8.part{0..5}.bin > tools/tts/model/kokoro-q8.onnx
 fi
 echo "== shared film grain -> projects that use it"
-for d in kikai-salon/hands-full kikai-salon/hook-storyboards; do cp --update=none kikai-salon/_shared/grain/grain*.png "$d/public/"; done
+for d in kikai-salon/hands-full kikai-salon/hook-storyboards kikai-salon/free-consult; do cp --update=none kikai-salon/_shared/grain/grain*.png "$d/public/"; done
 echo "== python deps"
 python3 -m pip install -q --break-system-packages kokoro-onnx soundfile scipy numpy pillow 2>/dev/null || python3 -m pip install -q kokoro-onnx soundfile scipy numpy pillow
 echo "== checks"
