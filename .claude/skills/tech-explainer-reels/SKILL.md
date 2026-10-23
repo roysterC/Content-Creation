@@ -18,8 +18,10 @@ Use with `reel-production` (pipeline, voice, mix, checks). Topic backlog and epi
 |---|---|---|
 | Hook (0s) | Kicker `<TOPIC> · EXPLAINED` (red) + headline `POV: …` **fully visible at frame 0**, with the problem already animating (flood, slow loading…) | "P.O.V.: … !" |
 | Series card | Kicker `EXPERT IN UNDER 1 MINUTE` + `<Topic>, / expert level.` while the problem keeps playing | "Here's <topic>. Expert level, in under a minute." |
-| 4–6 concept scenes | Kicker `01 · NAME` … headline 2 short lines, a sub line in mono at y≈1450, and a progress bar under the header | One idea per scene, said as it happens on screen |
+| 4–6 concept scenes | Kicker `01 · NAME` … headline 2 short lines and a progress bar under the header | One idea per scene, said as it happens on screen |
 | Recap | `RECAP` · `<Topic>, / in 4 lines.` · 4 ticked lines · **Follow for more** pill · "Be an expert in anything tech, in under 1 minute." | "That's <topic>. Follow, and be an expert in anything tech, in under a minute." |
+| **Share (last beat, ~3.5s)** | `<ShareOutro>`: kicker `SHARE` · `Send this / to a friend.` · "Teach them **<topic>** in under a minute." A paper plane flies in, then darts to the platform share button with a pulsing ring | "Now send this to a friend, and teach them <topic>!" |
+| **Captions (whole video)** | `<Captions>`: word-by-word subtitles of the voice at y≈1428, ≤ 3 words per chunk, spoken word in amber. They replace the old mono sub line | — |
 
 Show, don't tell: each concept is a **live, deterministic simulation** (precomputed in `src/sim.ts`) that visibly does the thing. Examples: packets routed by the algorithm, real LRU/TTL cache logic deciding HIT or MISS. Nothing on screen should be fake.
 
@@ -31,7 +33,7 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
 - Type:
   - headline Inter 800, 76px, −2 letter-spacing, top 250, left 70
   - kicker Plex Mono 600, 27px, letter-spacing 3
-  - sub Plex Mono 31px, dim, top 1450
+  - captions Inter 800 54px, white with the spoken word in amber, on a dark pill at top 1428 (the old mono sub line is gone)
   - diagram labels Plex Mono 20–27px (never under 20px at 1080 wide)
 - The diagram lives between y ≈ 550 and 1400 and stays clear of the right rail (x > 930 below y 980).
 - Packets are dots with glow (r 9 + r 18 at 16%), optionally with a pill label. A ring on arrival, a red ✕ burst for failures, and a HIT/MISS bubble.
@@ -46,12 +48,16 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
 - Voice 10 dB or more above the bed in every line.
 
 ## Starting a new episode
-1. Copy `tech-explainers/caching` to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
-2. Write ~8 VO lines (hook, series, 4–5 concepts, recap) and keep total speech ≤ 46s. Update `LINES` in `vo.py` (and `FIXES` for any initialisms) and run it.
-3. Edit the scene list in `build_timeline.py` and run it. It writes `src/timeline.json` from `src/vo.json` (hook VO at frame 4, each scene = max(min, 6 + VO frames + tail)).
-4. Rewrite `src/sim.ts` for the new topic's mechanics and `src/Explainer.tsx` scenes, keeping the shared components (Headline, Sub, Progress, Recap).
-5. Stills sheet, then low-res draft with sound for the owner, then full render, cover and captions.
-6. Add the episode to `topics.md`.
+1. Copy `tech-explainers/rate-limiting` (the newest, which already has captions and the share ending) to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
+2. Write ~9 VO lines (hook, series, 4–5 concepts, recap, **share**) and keep total speech ≤ 49s, so the video stays under 60s including the ~3.5s share beat.
+   - Update `LINES` in `vo.py` (and `FIXES` for any initialisms) and run it.
+   - Add `CAPTION_SUBS` for anything that should read differently from how it's spoken, e.g. `{'four twenty-nine': '429', 'ten requests': '10 requests'}`.
+3. Edit the scene list in `build_timeline.py` (recap tail ~16, then `('share', 110, 36)`) and run it.
+4. `python3 -I ../../tools/captions.py .` writes `src/captions.json` (word timings from the audio). **Re-run it whenever the VO or timeline changes.**
+5. Rewrite `src/sim.ts` for the new topic's mechanics and `src/Explainer.tsx` scenes. Keep the shared pieces: Headline, Progress, Recap, `<ShareOutro topic="…">` and `<Captions lines={CAPS}>` from `tech-explainers/_shared/`.
+   - Time any "said it, show it" beat (stamps, reveals) off `captions.json` word times, not guesses.
+6. Stills sheet, then low-res draft with sound for the owner, then full render, cover and captions.
+7. Add the episode to `topics.md`.
 
 ## Cover (`Cover` composition)
 Amber pill `EXPERT IN UNDER 1 MIN`, the topic in giant Inter 800 (158–190px), the POV line in mono under it, and the hook's most dramatic frame below (the 503 crash, the 4-second load…). Keep everything inside y 240–1680 for the Instagram grid crop.
@@ -71,4 +77,5 @@ Follow to be an expert in anything tech, in under 1 minute.
 #systemdesign #softwareengineering #backend #<topic> #programming #techexplained #codinginterview #learntocode …
 ```
 TikTok: one line hook + "explained in under a minute. Save it for your next interview 📌" + 6 hashtags.
+Both captions should also say "Send it to a friend who needs this 📤", matching the share beat at the end of the video (shares are the strongest reach signal after saves).
 Push **saves** (the strongest signal for educational content). Post each new episode 1–2 days after the last one, and link the two in a comment.

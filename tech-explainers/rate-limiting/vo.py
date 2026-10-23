@@ -25,7 +25,10 @@ LINES = [
     ('shared', "Many servers? Keep the counters in one shared place, like Redis, or each server hands out its own budget.", 1.12),
     ('retry', "And send a Retry-After header, so good clients wait, instead of hammering harder.", 1.1),
     ('recap', "That's rate limiting. Follow, and be an expert in anything tech, in under a minute.", 1.05),
+    ('share', "Now send this to a friend, and teach them rate limiting!", 1.08),
 ]
+# caption display text for spoken phrases (tools/captions.py)
+CAPTION_SUBS = {'four twenty-nine': '429', 'ten requests': '10 requests'}
 FIXES = {'kˈɪkaɪ': 'kˈiːkaɪ', 'pˈiː.ˈoʊ.vˈiː.:': 'pˌiːoʊvˈiː:', 'ˈaɪ.pˈiː.': 'ˌaɪpˈiː', 'ˈeɪ.pˈiː.ˈaɪ.': 'ˌeɪpiːˈaɪ', 'ˈɛkspɜːt': 'ˈɛkspɚt', 'tˈiː.tˈiː.ˈɛl.': 'tˌiːtiːˈɛl', 'ˈɛl.ˈɑːɹ.jˈuː.': 'ˌɛlɑːɹjˈuː', 'sˈiː.dˈiː.ˈɛn.': 'sˌiːdiːˈɛn', 'ɹᵻdiz': 'ɹˈɛdɪs'}
 
 

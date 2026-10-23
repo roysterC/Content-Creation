@@ -192,11 +192,13 @@ tN = np.arange(N) / SR
 music *= np.interp(tN, [0, DUR - 1.2, DUR], [1, 1, 0])[:, None]
 
 # ── sound design ──
-for k in ('series', 'bucket', 'window', 'shared', 'retry', 'recap'):
+for k in ('series', 'bucket', 'window', 'shared', 'retry', 'recap', 'share'):
     place(sfx, whoosh(0.45, True), fr(T[k]) - 0.3, 0.16)
-place(sfx, boom(0.8, 120, 50, 0.15), fr(T['fix'] + 16), 0.3)  # the limiter lands
-place(sfx, boom(1.2, 90, 34, 0.3), fr(T['v']['fix'] + 128), 0.45)  # 429 stamp
-place(sfx, noise_burst(0.15, 1500, 8000, 0.04), fr(T['v']['fix'] + 128), 0.2)
+place(sfx, boom(0.8, 120, 50, 0.15), fr(T['fix'] + 16), 0.2)  # the limiter lands
+CAPS = json.load(open(f'{ROOT}/src/captions.json'))
+STAMP = round(next(w['s'] for w in next(l for l in CAPS if l['id'] == 'fix')['words'] if w['t'].startswith('429')))
+place(sfx, boom(1.2, 90, 34, 0.3), fr(STAMP), 0.45)  # 429 stamp, on the spoken "429"
+place(sfx, noise_burst(0.15, 1500, 8000, 0.04), fr(STAMP), 0.2)
 PITCH = [0, 1046.5, 1318.5, 1567.98]  # alice / ben / cara blips; the bot gets clicks
 nb = 0
 for p in P:
@@ -246,6 +248,10 @@ for k in range(3):
     place(sfx, blip(1174.7, 0.08, 0.03), fr(R['wait0'] + k * 30), 0.12)
 place(sfx, bell(1567.98, 1.2, 0.5), fr(R['again'] + 29), 0.2)
 place(sfx, bell(1318.5, 1.6, 0.4), fr(T['recap'] + 96), 0.18)  # follow button
+place(sfx, whoosh(0.5, True), fr(T['share']) + 0.05, 0.22)  # paper plane flies in
+place(sfx, whoosh(0.7, True), fr(T['share'] + 62), 0.26)  # …and darts to the share button
+for k in range(3):
+    place(sfx, blip(1567.98, 0.1, 0.03), fr(T['share'] + 82 + k * 26), 0.1)
 
 # ── voice + mix ──
 vo = bus()

@@ -7,7 +7,7 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 |---|---|---|---|---|
 | 1 | Load balancers | POV: your app just went viral | Rendered (55.1s, male VO) | Round robin, least conn, IP hash, health checks, L4 vs L7 |
 | 2 | Caching | POV: your homepage takes 4 seconds to load | Rendered (51.8s, male VO) | Hit/miss, hit rate, TTL (stale price), LRU, cache layers |
-| 3 | Rate limiting | POV: one user is hammering your API | Rendered (53.5s, male VO) | Budget + 429, token bucket, fixed vs sliding window, shared Redis counter, Retry-After |
+| 3 | Rate limiting | POV: one user is hammering your API | v2 draft (57.4s, captions + share ending; v1 rendered 53.5s) | Budget + 429, token bucket, fixed vs sliding window, shared Redis counter, Retry-After |
 
 ## Next up (suggested order)
 4. **How LLMs work**: *POV: you asked ChatGPT a question* (first AI episode)

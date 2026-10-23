@@ -4,6 +4,9 @@ import {loadFont} from '@remotion/fonts';
 import {
   arriveAt, BOUNCE, BURST1, BURST2, CAP, W, CLIENT_Y, CLIENTS, COL, decideAt, DIRECT, GATE, gateOn, GS, LG, Pkt, PKTS, RETRY, S, SERVER, serverLoad, SH, SH_PKTS, shAllowedBeforeRedis, shArrive, shGlobal, shLocal, THRU, tokensAt,
 } from './sim';
+import CAPS from './captions.json';
+import {Captions} from '../../_shared/Captions';
+import {ShareOutro} from '../../_shared/ShareOutro';
 
 for (const w of ['400', '500', '600', '800']) loadFont({family: 'Inter', url: staticFile(`inter-${w}.woff2`), weight: w});
 for (const w of ['400', '600']) loadFont({family: 'Plex Mono', url: staticFile(`mono-${w}.woff2`), weight: w});
@@ -45,11 +48,6 @@ const Headline: React.FC<{f: number; c: Copy}> = ({f, c}) => {
       </div>
     </div>
   );
-};
-const Sub: React.FC<{f: number; c: Copy}> = ({f, c}) => {
-  if (f < c.at || f >= c.until) return null;
-  const o = c.at === 0 ? ip(f, [c.until - 8, c.until], [1, 0]) : ip(f, [c.at + 18, c.at + 28, c.until - 8, c.until], [0, 1, 1, 0]);
-  return <div style={{position: 'absolute', left: 70, right: 150, top: 1450, fontFamily: MONO, fontSize: 31, lineHeight: 1.35, color: COL.dim, opacity: o}}>{c.sub}</div>;
 };
 const Progress: React.FC<{f: number}> = ({f}) => {
   const marks = [S.fix, S.bucket, S.window, S.shared, S.retry, S.recap];
@@ -277,7 +275,7 @@ const Packets: React.FC<{f: number}> = ({f}) => {
 
 /* 429 stamp, when the voice says it */
 const Stamp: React.FC<{f: number}> = ({f}) => {
-  const at = S.v.fix + 128;
+  const at = Math.round(CAPS.find((l) => l.id === 'fix')!.words.find((w) => w.t.startsWith('429'))!.s);
   const o = ip(f, [at, at + 6, at + 70, at + 80], [0, 1, 1, 0]);
   if (o <= 0) return null;
   const pop = ip(f, [at, at + 7], [0.6, 1], Easing.bezier(0.2, 1.6, 0.4, 1));
@@ -559,7 +557,7 @@ const Shared: React.FC<{f: number}> = ({f}) => {
 
 /* ───────── recap ───────── */
 const Recap: React.FC<{f: number}> = ({f}) => {
-  if (f < S.recap) return null;
+  if (f < S.recap || f >= S.share) return null;
   const items = [
     ['Give every user a budget', 'e.g. 10 requests per second'],
     ['Over it? 429', 'Too Many Requests, plus Retry-After'],
@@ -567,7 +565,7 @@ const Recap: React.FC<{f: number}> = ({f}) => {
     ['Share the counter', 'one Redis for every server'],
   ];
   return (
-    <div style={{position: 'absolute', left: 70, right: 150, top: 250}}>
+    <div style={{position: 'absolute', left: 70, right: 150, top: 250, opacity: ip(f, [S.share - 8, S.share], [1, 0])}}>
       <div style={{fontFamily: MONO, fontWeight: 600, fontSize: 27, letterSpacing: 3, color: COL.amber, opacity: ip(f, [S.recap, S.recap + 8], [0, 1])}}>RECAP</div>
       <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 76, lineHeight: 1.08, letterSpacing: -2, color: COL.ink, marginTop: 18, opacity: ip(f, [S.recap + 4, S.recap + 14], [0, 1])}}>Rate limiting,</div>
       <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 76, lineHeight: 1.08, letterSpacing: -2, color: COL.ink, opacity: ip(f, [S.recap + 8, S.recap + 18], [0, 1])}}>in 4 lines.</div>
@@ -629,12 +627,11 @@ export const Explainer: React.FC = () => {
       {COPY.map((c, i) => (
         <Headline key={i} f={f} c={c} />
       ))}
-      {COPY.map((c, i) => (
-        <Sub key={`s${i}`} f={f} c={c} />
-      ))}
       <HookCounter f={f} />
       <Recap f={f} />
+      <ShareOutro f={f} at={S.share} until={S.total} topic="rate limiting" accent={COL.amber} ink={COL.ink} dim={COL.dim} sans={SANS} mono={MONO} />
       <Progress f={f} />
+      <Captions f={f} lines={CAPS} accent={COL.amber} />
     </AbsoluteFill>
   );
 };
