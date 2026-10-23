@@ -1,0 +1,23 @@
+{
+ "hook": 0,
+ "series": 156,
+ "scan": 269,
+ "index": 472,
+ "btree": 700,
+ "cost": 908,
+ "explain": 1128,
+ "recap": 1298,
+ "share": 1473,
+ "total": 1618,
+ "v": {
+  "hook": 4,
+  "series": 156,
+  "scan": 275,
+  "index": 478,
+  "btree": 706,
+  "cost": 914,
+  "explain": 1134,
+  "recap": 1304,
+  "share": 1479
+ }
+}
