@@ -31,8 +31,8 @@ source tools/env.sh   # exports REPO, CHROME (headless shell path), RENDER_CONCU
 ## 2. Workflow, in order
 1. **Script.** Write the VO lines first. Keep the total under the format's length (explainers: under 60s).
 2. **Voice.** `python3 -I vo.py [ids]` generates the lines and prints durations + phonemes. Read the phonemes and fix mispronunciations with the `FIXES` dict (see below).
-3. **Captions** (explainers): after the timeline exists, run `python3 -I tools/captions.py <episode>` to get word timings from the VO audio → `src/captions.json`. Re-run it after any VO or timeline change.
-4. **Timeline.** Derive scene starts from the VO lengths (`scene = 6 + ceil(len*30) + tail`, with a minimum length per scene). Write `src/timeline.json`. Video and audio both read it, so they can't drift apart.
+3. **Timeline.** Derive scene starts from the VO lengths (`scene = 6 + ceil(len*30) + tail`, with a minimum length per scene). Write `src/timeline.json`. Video and audio both read it, so they can't drift apart.
+4. **Captions** (explainers): after the timeline exists, run `python3 -I tools/captions.py <episode>` to get word timings from the VO audio → `src/captions.json`. Re-run it after any VO or timeline change.
 5. **Build scenes.** Anchor in-scene beats to the moment the key phrase is spoken (estimate from position in the line).
 6. **Storyboard.** Render stills at key frames (`--scale=0.5`), tile them into a sheet with PIL and look at them. Fix layout, overlap and legibility before any video render.
 7. **Draft.** The user always wants a **draft before a full render**: a stills sheet and/or `tools/render.sh <proj> <Comp> <wav> <out> draft` (0.4× scale, with sound).
