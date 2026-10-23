@@ -1,7 +1,7 @@
 import React from 'react';
 import {Easing, interpolate} from 'remotion';
 
-// Closing beat: "Send this to a friend / Teach them <topic> in under a minute."
+// Closing beat: "Send this to a friend / Teach them <topic> in under a minute." (or a custom `line`)
 // A paper plane flies in, then off toward where the platforms put the share button (right rail).
 const ip = (f: number, i: number[], o: number[], e = Easing.bezier(0.25, 0.1, 0.25, 1)) => interpolate(f, i, o, {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: e});
 const SHARE_BTN = {x: 1004, y: 1385}; // roughly under the Reels/TikTok share icon
@@ -13,11 +13,12 @@ const Plane: React.FC<{size: number; color: string}> = ({size, color}) => (
   </svg>
 );
 
-export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: string; accent?: string; ink?: string; dim?: string; sans?: string; mono?: string}> = ({
+export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: string; line?: React.ReactNode; accent?: string; ink?: string; dim?: string; sans?: string; mono?: string}> = ({
   f,
   at,
   until,
   topic,
+  line,
   accent = '#ffb020',
   ink = '#e9eef5',
   dim = '#8b98a9',
@@ -49,9 +50,13 @@ export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: 
           );
         })}
         <div style={{marginTop: 26, fontFamily: sans, fontWeight: 600, fontSize: 44, lineHeight: 1.2, color: dim, opacity: ip(t, [14, 26], [0, 1])}}>
-          Teach them <span style={{color: accent}}>{topic}</span>
-          <br />
-          in under a minute.
+          {line ?? (
+            <>
+              Teach them <span style={{color: accent}}>{topic}</span>
+              <br />
+              in under a minute.
+            </>
+          )}
         </div>
       </div>
       {/* dashed trail */}
