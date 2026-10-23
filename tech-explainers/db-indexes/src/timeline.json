@@ -6,9 +6,8 @@
  "btree": 700,
  "cost": 908,
  "explain": 1128,
- "recap": 1298,
- "share": 1473,
- "total": 1618,
+ "share": 1298,
+ "total": 1453,
  "v": {
   "hook": 4,
   "series": 156,
@@ -17,7 +16,6 @@
   "btree": 706,
   "cost": 914,
   "explain": 1134,
-  "recap": 1304,
-  "share": 1479
+  "share": 1304
  }
 }

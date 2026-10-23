@@ -74,8 +74,15 @@ export const scanPos = (f: number) => {
 /** the scan has found zoe (but must keep going: emails aren't known to be unique) */
 export const foundAt = A.everyRow;
 export const SCAN_DONE = A.millionChecks + 26;
-/** illustrative scan time: ~2.1 s for a million rows */
-export const scanSeconds = (rows: number) => (rows / N_ROWS) * 2.1;
+/** one full scan of 1M small, cached rows ≈ 150 ms (typical Postgres/MySQL); an indexed lookup ≈ 0.1 ms */
+export const SCAN_MS = 150;
+export const scanMs = (rows: number) => (rows / N_ROWS) * SCAN_MS;
+// under real traffic: 80 searches/s arrive, but 8 cores × (1 scan / 150 ms) ≈ 53 scans/s get served,
+// so the queue grows and every user's response time climbs (simple queueing, not a made-up number)
+export const LOAD = {arrivals: 80, served: 8 / (SCAN_MS / 1000)};
+const t0 = 1; // the site was already busy for a second before frame 0
+export const queueAt = (f: number) => Math.max(0, (LOAD.arrivals - LOAD.served) * (t0 + Math.max(0, f) / 30));
+export const responseSeconds = (f: number) => SCAN_MS / 1000 + queueAt(f) / LOAD.served;
 
 // ── the sorted index (a window near "z") ──
 export const INDEX_WINDOW = [

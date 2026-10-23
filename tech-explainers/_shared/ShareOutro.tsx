@@ -1,7 +1,8 @@
 import React from 'react';
 import {Easing, interpolate} from 'remotion';
 
-// Closing beat: "Send this to a friend / Teach them <topic> in under a minute." (or a custom `line`)
+// Closing beat: "Send this to a friend / Teach them <topic> in under a minute." (or a custom `line`).
+// `follow` adds the "Follow for more" pill, so one beat carries both asks (the recap card is gone from the format).
 // A paper plane flies in, then off toward where the platforms put the share button (right rail).
 const ip = (f: number, i: number[], o: number[], e = Easing.bezier(0.25, 0.1, 0.25, 1)) => interpolate(f, i, o, {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: e});
 const SHARE_BTN = {x: 1004, y: 1385}; // roughly under the Reels/TikTok share icon
@@ -13,12 +14,13 @@ const Plane: React.FC<{size: number; color: string}> = ({size, color}) => (
   </svg>
 );
 
-export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: string; line?: React.ReactNode; accent?: string; ink?: string; dim?: string; sans?: string; mono?: string}> = ({
+export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: string; line?: React.ReactNode; follow?: boolean; accent?: string; ink?: string; dim?: string; sans?: string; mono?: string}> = ({
   f,
   at,
   until,
   topic,
   line,
+  follow = false,
   accent = '#ffb020',
   ink = '#e9eef5',
   dim = '#8b98a9',
@@ -40,7 +42,7 @@ export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: 
   return (
     <div style={{position: 'absolute', inset: 0, opacity: o}}>
       <div style={{position: 'absolute', left: 70, right: 120, top: 250}}>
-        <div style={{fontFamily: mono, fontWeight: 600, fontSize: 27, letterSpacing: 3, color: accent, opacity: ip(t, [0, 8], [0, 1])}}>SHARE</div>
+        <div style={{fontFamily: mono, fontWeight: 600, fontSize: 27, letterSpacing: 3, color: accent, opacity: ip(t, [0, 8], [0, 1])}}>{follow ? 'FOLLOW + SHARE' : 'SHARE'}</div>
         {['Send this', 'to a friend.'].map((line, i) => {
           const p = ip(t, [3 + i * 5, 15 + i * 5], [0, 1]);
           return (
@@ -58,6 +60,16 @@ export const ShareOutro: React.FC<{f: number; at: number; until: number; topic: 
             </>
           )}
         </div>
+        {follow ? (
+          <div style={{marginTop: 34, display: 'flex', alignItems: 'center', gap: 22, opacity: ip(t, [20, 30], [0, 1]), translate: `0 ${(1 - ip(t, [20, 30], [0, 1])) * 14}px`}}>
+            <div style={{padding: '18px 30px', borderRadius: 999, background: accent, color: '#1a1406', fontFamily: sans, fontWeight: 700, fontSize: 34, scale: String(1 + 0.04 * Math.max(0, Math.sin((t - 30) / 9)))}}>Follow for more</div>
+            <div style={{fontFamily: mono, fontSize: 24, color: dim, lineHeight: 1.35}}>
+              expert in anything tech,
+              <br />
+              in under 1 minute
+            </div>
+          </div>
+        ) : null}
       </div>
       {/* dashed trail */}
       {outP > 0 ? (

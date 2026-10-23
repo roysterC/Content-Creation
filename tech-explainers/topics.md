@@ -14,7 +14,7 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 |---|---|---|---|---|
 | **System design** |||||
 | 1 | Caching | POV: your homepage takes 4 seconds to load | Requests skip the slow DB and hit the cache; hit vs miss | ✅ Rendered (51.8s) |
-| 2 | Database indexes | POV: your database just hit a million rows | Full table scan vs index lookup | 📝 Draft (53.9s, captions + share) |
+| 2 | Database indexes | POV: your database just hit a million rows | Full table scan vs index lookup | 📝 v2 draft (48.4s: no recap, follow + share, loop, honest timings) |
 | 3 | Rate limiting | POV: one user is hammering your API | Token bucket drains/refills, excess bounces with 429 | ✅ v1 rendered (53.5s) · v2 draft with captions + share (57.4s), needs final render |
 | 4 | CDNs | POV: your users in Australia say your site is slow | World map, edge servers light up near users | ⏭ **Next** |
 | 5 | Message queues | POV: your checkout crashes every Black Friday | Orders pile into a queue, workers pull at their own pace | |

@@ -24,8 +24,7 @@ LINES = [
     ('btree', "Databases store it as a B-tree. So finding one row in a million takes just three or four hops.", 1.1),
     ('cost', "But indexes aren't free: every insert updates every index. So index what you search by, not everything.", 1.14),
     ('explain', "Not sure? Run explain, and see if your query scans the whole table.", 1.12),
-    ('recap', "That's database indexes. Follow, and be an expert in anything tech, in under a minute.", 1.1),
-    ('share', "Now send this to a friend, and teach them database indexes!", 1.12),
+    ('share', "Follow for more, and send this to a friend who needs to learn indexes!", 1.1),
 ]
 # caption display text for spoken phrases (tools/captions.py)
 CAPTION_SUBS = {'a million rows': '1M rows', 'a million checks': '1M checks', 'a million': '1M', 'three or four': '3–4', 'explain': 'EXPLAIN'}

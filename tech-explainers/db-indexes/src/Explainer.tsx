@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {loadFont} from '@remotion/fonts';
-import {A, COL, emailOf, foundAt, INDEX_WINDOW, N_ROWS, S, SCAN_DONE, scanPos, scanSeconds, TARGET_EMAIL, TARGET_ID, TREE} from './sim';
+import {A, COL, emailOf, foundAt, INDEX_WINDOW, LOAD, N_ROWS, queueAt, responseSeconds, S, SCAN_DONE, SCAN_MS, scanMs, scanPos, TARGET_EMAIL, TARGET_ID, TREE} from './sim';
 import CAPS from './captions.json';
 import {Captions} from '../../_shared/Captions';
 import {ShareOutro} from '../../_shared/ShareOutro';
@@ -25,7 +25,7 @@ const COPY: Copy[] = [
   {at: S.index, until: S.btree, kicker: '02 · THE INDEX', head: ['A sorted copy,', 'with pointers.'], kColor: COL.ok},
   {at: S.btree, until: S.cost, kicker: '03 · B-TREE', head: ['1M rows,', '4 hops.'], kColor: COL.req},
   {at: S.cost, until: S.explain, kicker: '04 · THE COST', head: ['Every write updates', 'every index.'], kColor: COL.amber},
-  {at: S.explain, until: S.recap, kicker: '05 · EXPLAIN', head: ['Check it,', 'don’t guess.'], kColor: COL.violet},
+  {at: S.explain, until: S.share, kicker: '05 · EXPLAIN', head: ['Check it,', 'don’t guess.'], kColor: COL.violet},
 ];
 const Headline: React.FC<{f: number; c: Copy}> = ({f, c}) => {
   if (f < c.at - 1 || f >= c.until) return null;
@@ -47,7 +47,7 @@ const Headline: React.FC<{f: number; c: Copy}> = ({f, c}) => {
   );
 };
 const Progress: React.FC<{f: number}> = ({f}) => {
-  const marks = [S.scan, S.index, S.btree, S.cost, S.explain, S.recap];
+  const marks = [S.scan, S.index, S.btree, S.cost, S.explain, S.share];
   return (
     <div style={{position: 'absolute', left: 70, right: 150, top: 232, height: 4, display: 'flex', gap: 8}}>
       {marks.map((m, i) => (
@@ -113,13 +113,24 @@ const QueryBar: React.FC<{f: number; o: number}> = ({f, o}) => (
 const ScanStats: React.FC<{f: number}> = ({f}) => {
   const rows = scanPos(f);
   const done = f >= SCAN_DONE;
+  const fin = Math.min(f, SCAN_DONE);
+  const resp = responseSeconds(fin);
+  const label = (t: string) => <div style={{fontFamily: MONO, fontSize: 20, color: COL.dim, letterSpacing: 2}}>{t}</div>;
+  const big = (t: string, c: string, size = 58) => <div style={{fontFamily: SANS, fontWeight: 800, fontSize: size, color: c, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums', lineHeight: 1.1}}>{t}</div>;
   return (
-    <div style={{position: 'absolute', left: 600, top: 640, width: 320}}>
-      <div style={{fontFamily: MONO, fontSize: 22, color: COL.dim, letterSpacing: 2}}>ROWS CHECKED</div>
-      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 64, color: done ? COL.bad : COL.ink, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums'}}>{n(rows)}</div>
-      <div style={{marginTop: 30, fontFamily: MONO, fontSize: 22, color: COL.dim, letterSpacing: 2}}>TIME</div>
-      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 64, color: done ? COL.bad : COL.amber, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums'}}>{scanSeconds(rows).toFixed(1)} s</div>
-      {done ? <div style={{marginTop: 20, fontFamily: MONO, fontSize: 22, color: COL.bad, opacity: ip(f, [SCAN_DONE, SCAN_DONE + 8], [0, 1])}}>every row, every time</div> : null}
+    <div style={{position: 'absolute', left: 600, top: 630, width: 330}}>
+      {label('ROWS CHECKED')}
+      {big(n(rows), done ? COL.bad : COL.ink)}
+      <div style={{marginTop: 18}}>{label('THIS QUERY')}</div>
+      {big(`${Math.round(scanMs(rows))} ms`, COL.amber, 50)}
+      <div style={{marginTop: 26, paddingTop: 22, borderTop: '2px solid #223044'}}>
+        <div style={{fontFamily: MONO, fontSize: 21, color: COL.ink}}>but {LOAD.arrivals} people</div>
+        <div style={{fontFamily: MONO, fontSize: 21, color: COL.ink}}>search every second…</div>
+      </div>
+      <div style={{marginTop: 18}}>{label('WAITING IN LINE')}</div>
+      {big(n(queueAt(fin)), COL.bad, 50)}
+      <div style={{marginTop: 18}}>{label('RESPONSE TIME')}</div>
+      {big(`${resp.toFixed(1)} s`, resp > 3 ? COL.bad : COL.amber, 64)}
     </div>
   );
 };
@@ -230,10 +241,12 @@ const BTree: React.FC<{f: number}> = ({f}) => {
         <div>
           <div style={{fontFamily: MONO, fontSize: 21, color: COL.dim, letterSpacing: 2}}>WITH INDEX</div>
           <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 52, color: COL.ok}}>4 page reads</div>
+          <div style={{fontFamily: MONO, fontSize: 24, color: COL.ok}}>≈ 0.1 ms</div>
         </div>
         <div>
           <div style={{fontFamily: MONO, fontSize: 21, color: COL.dim, letterSpacing: 2}}>WITHOUT</div>
           <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 52, color: COL.bad}}>1,000,000 rows</div>
+          <div style={{fontFamily: MONO, fontSize: 24, color: COL.bad}}>≈ {SCAN_MS} ms · 1,500× slower</div>
         </div>
       </div>
     </AbsoluteFill>
@@ -287,7 +300,7 @@ const Cost: React.FC<{f: number}> = ({f}) => {
 
 /* EXPLAIN: before and after */
 const Explain: React.FC<{f: number}> = ({f}) => {
-  const o = ip(f, [S.explain, S.explain + 12, S.recap - 6, S.recap], [0, 1, 1, 0]);
+  const o = ip(f, [S.explain, S.explain + 12, S.share - 6, S.share], [0, 1, 1, 0]);
   if (o <= 0) return null;
   const type = (s: string, at: number, cps = 1.6) => s.slice(0, Math.max(0, Math.floor((f - at) * cps)));
   const q1 = "EXPLAIN SELECT * FROM users WHERE email = 'zoe@mail.com';";
@@ -320,48 +333,23 @@ const Explain: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-/* ───────── recap ───────── */
-const Recap: React.FC<{f: number}> = ({f}) => {
-  if (f < S.recap || f >= S.share) return null;
-  const items = [
-    ['Full table scan', 'no index = check every row'],
-    ['Index', 'a sorted copy of a column, with pointers'],
-    ['B-tree', '1M rows in about 4 hops'],
-    ['Not free', 'every write updates every index'],
-  ];
+const LOOP = 14;
+export const Explainer: React.FC = () => {
+  const f = useCurrentFrame();
+  const loop = ip(f, [S.total - LOOP, S.total - 1], [0, 1]);
   return (
-    <div style={{position: 'absolute', left: 70, right: 150, top: 250, opacity: ip(f, [S.share - 8, S.share], [1, 0])}}>
-      <div style={{fontFamily: MONO, fontWeight: 600, fontSize: 27, letterSpacing: 3, color: COL.amber, opacity: ip(f, [S.recap, S.recap + 8], [0, 1])}}>RECAP</div>
-      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 76, lineHeight: 1.08, letterSpacing: -2, color: COL.ink, marginTop: 18, opacity: ip(f, [S.recap + 4, S.recap + 14], [0, 1])}}>Database indexes,</div>
-      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 76, lineHeight: 1.08, letterSpacing: -2, color: COL.ink, opacity: ip(f, [S.recap + 8, S.recap + 18], [0, 1])}}>in 4 lines.</div>
-      <div style={{marginTop: 70}}>
-        {items.map(([a, b], i) => {
-          const p = ip(f, [S.recap + 24 + i * 14, S.recap + 36 + i * 14], [0, 1]);
-          return (
-            <div key={i} style={{display: 'flex', gap: 28, alignItems: 'flex-start', marginBottom: 46, opacity: p, translate: `${(1 - p) * -30}px 0`}}>
-              <div style={{width: 54, height: 54, borderRadius: 14, border: `3px solid ${COL.ok}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none'}}>
-                <svg width={28} height={28} viewBox="0 0 24 24">
-                  <path d="M4 12.5l5 5L20 6.5" fill="none" stroke={COL.ok} strokeWidth={3.2} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <div>
-                <div style={{fontFamily: SANS, fontWeight: 600, fontSize: 46, color: COL.ink, letterSpacing: -0.5}}>{a}</div>
-                <div style={{fontFamily: MONO, fontSize: 29, color: COL.dim, marginTop: 6}}>{b}</div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div style={{marginTop: 40, display: 'inline-block', padding: '20px 34px', borderRadius: 999, background: COL.amber, color: '#1a1406', fontFamily: SANS, fontWeight: 700, fontSize: 36, opacity: ip(f, [S.recap + 96, S.recap + 106], [0, 1]), scale: String(ip(f, [S.recap + 96, S.recap + 106], [0.85, 1], Easing.bezier(0.2, 1.5, 0.4, 1)) * (1 + 0.04 * Math.max(0, Math.sin((f - S.recap - 106) / 9))))}}>
-        Follow for more
-      </div>
-      <div style={{marginTop: 22, fontFamily: MONO, fontSize: 29, color: COL.dim, opacity: ip(f, [S.recap + 104, S.recap + 114], [0, 1])}}>Be an expert in anything tech, in under 1 minute.</div>
-    </div>
+    <AbsoluteFill>
+      <Frame f={f} />
+      {loop > 0 ? (
+        <AbsoluteFill style={{opacity: loop}}>
+          <Frame f={0} />
+        </AbsoluteFill>
+      ) : null}
+    </AbsoluteFill>
   );
 };
 
-export const Explainer: React.FC = () => {
-  const f = useCurrentFrame();
+const Frame: React.FC<{f: number}> = ({f}) => {
   const scanO = ip(f, [S.index - 8, S.index], [1, 0]);
   const breathe = 1.0 + 0.012 * Math.sin((f / 90) * Math.PI);
   return (
@@ -384,8 +372,7 @@ export const Explainer: React.FC = () => {
       {COPY.map((c, i) => (
         <Headline key={i} f={f} c={c} />
       ))}
-      <Recap f={f} />
-      <ShareOutro f={f} at={S.share} until={S.total} topic="database indexes" accent={COL.amber} ink={COL.ink} dim={COL.dim} sans={SANS} mono={MONO} />
+      <ShareOutro f={f} at={S.share} until={S.total} topic="database indexes" follow line={<>who needs to learn <span style={{color: COL.amber}}>indexes</span>.</>} accent={COL.amber} ink={COL.ink} dim={COL.dim} sans={SANS} mono={MONO} />
       <Progress f={f} />
       <Captions f={f} lines={CAPS} accent={COL.amber} />
     </AbsoluteFill>

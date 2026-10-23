@@ -198,7 +198,7 @@ tN = np.arange(N) / SR
 music *= np.interp(tN, [0, DUR - 1.2, DUR], [1, 1, 0])[:, None]
 
 # ── sound design ──
-for k in ('series', 'scan', 'index', 'btree', 'cost', 'explain', 'recap', 'share'):
+for k in ('series', 'scan', 'index', 'btree', 'cost', 'explain', 'share'):
     place(sfx, whoosh(0.45, True), fr(T[k]) - 0.3, 0.16)
 # the full scan: a fast mechanical rattle that never lets up, until a million rows are done
 every_row = word('scan', 'row')
@@ -207,6 +207,13 @@ for f in range(0, scan_done, 2):
     place(sfx, tick(2000 + 300 * rng.random(), 0.003), fr(f), 0.05, pan=-0.25 + 0.5 * rng.random())
 place(sfx, bell(1567.98, 1.0, 0.5), fr(every_row), 0.2)  # MATCH… keep scanning
 place(sfx, boom(0.7, 110, 45, 0.15), fr(scan_done), 0.3)  # 1,000,000 checked
+# the queue backing up: an alarm blip each time response time passes another 2 s
+for f in range(0, scan_done):
+    w0 = 0.15 + max(0, 26.67 * (1 + (f - 1) / 30)) / 53.33
+    w1 = 0.15 + max(0, 26.67 * (1 + f / 30)) / 53.33
+    if int(w1 // 2) > int(w0 // 2):
+        place(sfx, blip(1760.0, 0.08, 0.02) + 0.0, fr(f), 0.14, pan=0.35)
+        place(sfx, blip(1760.0, 0.08, 0.02), fr(f) + 0.1, 0.12, pan=0.35)
 # the index slides in: one blip per sorted entry, a swoosh for the pointer, a pop for the book
 sorted_at = word('index', 'sorted')
 for i in range(7):
@@ -234,7 +241,7 @@ t2 = r1 + 22
 for k in range(0, 14, 2):
     place(sfx, tick(3000 + 400 * rng.random(), 0.002), fr(t2 + k), 0.07)
 place(sfx, bell(1567.98, 1.2, 0.5), fr(t2 + 18 + 6), 0.2)
-place(sfx, bell(1318.5, 1.6, 0.4), fr(T['recap'] + 96), 0.18)  # follow button
+place(sfx, bell(1318.5, 1.6, 0.4), fr(T['share'] + 20), 0.16)  # follow pill
 place(sfx, whoosh(0.5, True), fr(T['share']) + 0.05, 0.22)  # paper plane flies in
 place(sfx, whoosh(0.7, True), fr(T['share'] + 62), 0.26)  # …and darts to the share button
 for k in range(3):

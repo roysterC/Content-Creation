@@ -10,7 +10,7 @@ T['series'] = v['hook'] + F('hook') + 6
 v['series'] = T['series']
 t = T['series'] + F('series') + 6
 # (scene, min frames, tail frames after the line ends)
-for scene, minlen, tail in [('scan', 200, 14), ('index', 200, 14), ('btree', 200, 18), ('cost', 220, 14), ('explain', 170, 22), ('recap', 175, 10), ('share', 100, 30)]:
+for scene, minlen, tail in [('scan', 200, 14), ('index', 200, 14), ('btree', 200, 18), ('cost', 220, 14), ('explain', 170, 18), ('share', 140, 26)]:
     T[scene], v[scene] = t, t + 6
     t += max(minlen, 6 + F(scene) + tail)
 T['total'], T['v'] = t, v
