@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {loadFont} from '@remotion/fonts';
-import {A, COL, emailOf, foundAt, INDEX_WINDOW, LOAD, N_ROWS, queueAt, responseSeconds, S, SCAN_DONE, SCAN_MS, scanMs, scanPos, TARGET_EMAIL, TARGET_ID, TREE} from './sim';
+import {A, COL, emailOf, foundAt, INDEX_WINDOW, N_ROWS, S, SCAN_DONE, SCAN_MS, scanMs, scanPos, TARGET_EMAIL, TARGET_ID, TREE} from './sim';
 import CAPS from './captions.json';
 import {Captions} from '../../_shared/Captions';
 import {ShareOutro} from '../../_shared/ShareOutro';
@@ -113,24 +113,13 @@ const QueryBar: React.FC<{f: number; o: number}> = ({f, o}) => (
 const ScanStats: React.FC<{f: number}> = ({f}) => {
   const rows = scanPos(f);
   const done = f >= SCAN_DONE;
-  const fin = Math.min(f, SCAN_DONE);
-  const resp = responseSeconds(fin);
-  const label = (t: string) => <div style={{fontFamily: MONO, fontSize: 20, color: COL.dim, letterSpacing: 2}}>{t}</div>;
-  const big = (t: string, c: string, size = 58) => <div style={{fontFamily: SANS, fontWeight: 800, fontSize: size, color: c, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums', lineHeight: 1.1}}>{t}</div>;
   return (
-    <div style={{position: 'absolute', left: 600, top: 630, width: 330}}>
-      {label('ROWS CHECKED')}
-      {big(n(rows), done ? COL.bad : COL.ink)}
-      <div style={{marginTop: 18}}>{label('THIS QUERY')}</div>
-      {big(`${Math.round(scanMs(rows))} ms`, COL.amber, 50)}
-      <div style={{marginTop: 26, paddingTop: 22, borderTop: '2px solid #223044'}}>
-        <div style={{fontFamily: MONO, fontSize: 21, color: COL.ink}}>but {LOAD.arrivals} people</div>
-        <div style={{fontFamily: MONO, fontSize: 21, color: COL.ink}}>search every second…</div>
-      </div>
-      <div style={{marginTop: 18}}>{label('WAITING IN LINE')}</div>
-      {big(n(queueAt(fin)), COL.bad, 50)}
-      <div style={{marginTop: 18}}>{label('RESPONSE TIME')}</div>
-      {big(`${resp.toFixed(1)} s`, resp > 3 ? COL.bad : COL.amber, 64)}
+    <div style={{position: 'absolute', left: 600, top: 640, width: 320}}>
+      <div style={{fontFamily: MONO, fontSize: 22, color: COL.dim, letterSpacing: 2}}>ROWS CHECKED</div>
+      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 64, color: done ? COL.bad : COL.ink, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums'}}>{n(rows)}</div>
+      <div style={{marginTop: 30, fontFamily: MONO, fontSize: 22, color: COL.dim, letterSpacing: 2}}>TIME</div>
+      <div style={{fontFamily: SANS, fontWeight: 800, fontSize: 64, color: done ? COL.bad : COL.amber, letterSpacing: -1.5, fontVariantNumeric: 'tabular-nums'}}>{Math.round(scanMs(rows))} ms</div>
+      {done ? <div style={{marginTop: 20, fontFamily: MONO, fontSize: 22, color: COL.bad, opacity: ip(f, [SCAN_DONE, SCAN_DONE + 8], [0, 1])}}>every search, every time</div> : null}
     </div>
   );
 };

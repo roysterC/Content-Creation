@@ -207,13 +207,6 @@ for f in range(0, scan_done, 2):
     place(sfx, tick(2000 + 300 * rng.random(), 0.003), fr(f), 0.05, pan=-0.25 + 0.5 * rng.random())
 place(sfx, bell(1567.98, 1.0, 0.5), fr(every_row), 0.2)  # MATCH… keep scanning
 place(sfx, boom(0.7, 110, 45, 0.15), fr(scan_done), 0.3)  # 1,000,000 checked
-# the queue backing up: an alarm blip each time response time passes another 2 s
-for f in range(0, scan_done):
-    w0 = 0.15 + max(0, 26.67 * (1 + (f - 1) / 30)) / 53.33
-    w1 = 0.15 + max(0, 26.67 * (1 + f / 30)) / 53.33
-    if int(w1 // 2) > int(w0 // 2):
-        place(sfx, blip(1760.0, 0.08, 0.02) + 0.0, fr(f), 0.14, pan=0.35)
-        place(sfx, blip(1760.0, 0.08, 0.02), fr(f) + 0.1, 0.12, pan=0.35)
 # the index slides in: one blip per sorted entry, a swoosh for the pointer, a pop for the book
 sorted_at = word('index', 'sorted')
 for i in range(7):

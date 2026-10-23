@@ -57,7 +57,8 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
 3. Edit the scene list in `build_timeline.py` (last concept, then `('share', 140, 26)`, no recap) and run it.
 4. `python3 -I ../../tools/captions.py .` writes `src/captions.json` (word timings from the audio). **Re-run it whenever the VO or timeline changes.**
 5. Rewrite `src/sim.ts` for the new topic's mechanics and `src/Explainer.tsx` scenes. Keep the shared pieces: Headline, Progress, the `Frame` + loop wrapper, `<ShareOutro follow …>` and `<Captions lines={CAPS}>` from `tech-explainers/_shared/`.
-   - **Numbers must be realistic.** Developers will check them. If something needs to feel slower or bigger, find the honest version (e.g. traffic piling up into a queue) rather than inflating a figure.
+   - **Numbers must be realistic.** Developers will check them. Use real-world figures (e.g. a 1M-row scan ≈ 150 ms, an indexed lookup ≈ 0.1 ms) rather than inflating them for drama.
+   - **Keep the first screen simple:** headline, the visual and at most two stats. The owner rejected a busier hook panel (queue, response time, etc.) as too many numbers and words.
    - Time any "said it, show it" beat (stamps, reveals) off `captions.json` word times, not guesses.
 6. Stills sheet, then low-res draft with sound for the owner, then full render, cover and captions.
 7. Add the episode to `topics.md`.
