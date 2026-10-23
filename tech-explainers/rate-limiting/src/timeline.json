@@ -1,0 +1,21 @@
+{
+ "hook": 0,
+ "series": 156,
+ "fix": 256,
+ "bucket": 496,
+ "window": 765,
+ "shared": 999,
+ "retry": 1214,
+ "recap": 1397,
+ "total": 1605,
+ "v": {
+  "hook": 4,
+  "series": 156,
+  "fix": 262,
+  "bucket": 502,
+  "window": 771,
+  "shared": 1005,
+  "retry": 1220,
+  "recap": 1403
+ }
+}
