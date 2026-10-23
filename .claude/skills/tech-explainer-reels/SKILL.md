@@ -5,7 +5,7 @@ description: Make episodes for the tech explainer page ("be an expert in anythin
 
 # Tech explainer reels: "Expert in under 1 minute"
 
-Use with `reel-production` (pipeline, voice, mix, checks). Topic backlog and episode log: `tech-explainers/topics.md`.
+Use with `reel-production` (pipeline, voice, mix, checks). **Topic list: `tech-explainers/topics.md`.** It's the owner's canonical numbered list. The next episode is the first one not done, in list order, unless the owner picks another. Update its status column after every draft and render.
 
 ## The page
 - USP: **be an expert in anything tech, in under 1 minute.** Every episode is under 60s.
