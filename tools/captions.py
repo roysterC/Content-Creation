@@ -73,6 +73,7 @@ def align(words, weights, s0, s1, gaps):
     cum = np.cumsum(weights) / total
     used = set()
     snapped = {}  # word index → gap
+    prev_t, prev_w = s0, -1  # where the current segment starts (time, last word index before it)
     for bi in bounds:
         expect_speech = cum[bi] * speech
         # convert speech-time to clock time by walking the gaps
@@ -81,13 +82,16 @@ def align(words, weights, s0, s1, gaps):
             if a < t:
                 t += b - a
         best, bd = None, 0.45
+        n_words = bi - prev_w
         for k, (a, b) in enumerate(gaps):
             d = abs((a + b) / 2 - t)
-            if k not in used and d < bd and all(k > u for u in used):
+            # reject gaps that would squeeze the phrase's words below ~0.11s each (a stop consonant, not a pause)
+            if k not in used and d < bd and all(k > u for u in used) and a - prev_t >= 0.11 * n_words:
                 best, bd = k, d
         if best is not None:
             used.add(best)
             snapped[bi] = gaps[best]
+            prev_t, prev_w = gaps[best][1], bi
     # split into segments at snapped gaps and distribute by weight inside each
     out = [None] * n
     seg_start_word, seg_t = 0, s0
