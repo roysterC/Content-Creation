@@ -18,7 +18,7 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 | 3 | Rate limiting | POV: one user is hammering your API | Token bucket drains/refills, excess bounces with 429 | ✅ v1 rendered (53.5s) · v2 draft with captions + share (57.4s), needs final render |
 | 4 | CDNs | POV: your users in Australia say your site is slow | World map, edge servers light up near users | ✅ Rendered (50.6s) |
 | 5 | Message queues | POV: tickets drop at 10am… and the page just spins | Orders pile into a queue, workers pull at their own pace | ✅ Rendered (58.0s, ticket drop, new hook → lead → open-loop structure, no end cards) |
-| 6 | Database sharding | POV: one database can't hold all your users | Users split by ID into shards | ⏭ **Next** |
+| 6 | Database sharding | POV: a hundred million users… and one database is taking every write | One DB splits into shards; id mod 4, range hot spot, hot key + cache, scatter-gather, mod 5 reshard (4 in 5 move) | 📝 Draft (56.3s, rate-limiting style: villain hook + series line + fix at 9s; no end cards, loops; teases #11) |
 | 7 | Replication (read replicas) | POV: your database is drowning in reads | Primary takes writes, replicas serve reads, show lag | |
 | 8 | Horizontal vs vertical scaling | POV: you need to handle 10x the traffic | One server inflating vs cloning into many | |
 | 9 | Microservices vs monolith | POV: one bug just took down your whole app | A block cracking into services | |
