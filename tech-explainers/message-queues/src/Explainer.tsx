@@ -19,13 +19,13 @@ const n = (x: number) => Math.round(x).toLocaleString('en-GB');
 /* ───────── copy ───────── */
 type Copy = {at: number; until: number; kicker: string; head: string[]; kColor?: string};
 const COPY: Copy[] = [
-  {at: S.hook, until: S.lead, kicker: 'MESSAGE QUEUES · EXPLAINED', head: ['POV: you click Pay', 'on Black Friday…'], kColor: COL.bad},
+  {at: S.hook, until: S.lead, kicker: 'MESSAGE QUEUES · EXPLAINED', head: ['POV: tickets drop', 'at 10am…'], kColor: COL.bad},
   {at: S.lead, until: S.chain, kicker: 'EXPERT IN UNDER 1 MINUTE', head: ['It’s not your Wi-Fi.', 'It’s a traffic jam.'], kColor: COL.amber},
   {at: S.chain, until: S.queue, kicker: '01 · ONE SLOW STEP', head: ['Everything at once,', 'so everyone waits.'], kColor: COL.bad},
   {at: S.queue, until: S.ack, kicker: '02 · THE QUEUE', head: ['Do it now,', 'or do it later.'], kColor: COL.ok},
   {at: S.ack, until: S.idem, kicker: '03 · ACKNOWLEDGE', head: ['Not deleted', 'until it’s done.'], kColor: COL.req},
   {at: S.idem, until: S.spike, kicker: '04 · IDEMPOTENCY', head: ['Run it twice,', 'same result.'], kColor: COL.violet},
-  {at: S.spike, until: S.total, kicker: '05 · BLACK FRIDAY', head: ['The queue grows.', 'Nothing breaks.'], kColor: COL.amber},
+  {at: S.spike, until: S.total, kicker: '05 · TICKET DAY', head: ['The queue grows.', 'Nothing breaks.'], kColor: COL.amber},
 ];
 const Headline: React.FC<{f: number; c: Copy}> = ({f, c}) => {
   if (f < c.at - 1 || f >= c.until) return null;
@@ -61,7 +61,7 @@ const Progress: React.FC<{f: number}> = ({f}) => {
 
 /* ───────── the shopper's phone ───────── */
 const chainElapsed = (f: number) => {
-  // the serial checkout's clock: runs through each step as the token reaches it, then crawls on the warehouse
+  // the serial checkout's clock: runs through each step as the token reaches it, then crawls on issuing the ticket
   if (f < A.charge) return Math.max(0, ((f - S.chain) / (A.charge - S.chain)) * 0.05);
   let t = 0;
   for (let i = 0; i < STEPS.length; i++) {
@@ -102,7 +102,7 @@ const Phone: React.FC<{f: number}> = ({f}) => {
   return (
     <div style={{position: 'absolute', opacity: po, left: x - W / 2, top: y - H / 2, width: W, height: H, scale: String(s), borderRadius: 46, background: '#121212', boxShadow: '0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 3px #333'}}>
       <div style={{position: 'absolute', inset: 12, borderRadius: 36, background: '#0f1621', overflow: 'hidden', padding: '34px 22px'}}>
-        <div style={{fontFamily: MONO, fontSize: 18, color: COL.dim}}>shop.com/checkout</div>
+        <div style={{fontFamily: MONO, fontSize: 18, color: COL.dim}}>tickets.com/checkout</div>
         <div style={{marginTop: 26, display: 'flex', gap: 14, alignItems: 'center'}}>
           <div style={{width: 76, height: 76, borderRadius: 14, background: 'linear-gradient(135deg, #2b3b52, #1a2433)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <svg width={46} height={30} viewBox="0 0 46 30">
@@ -110,16 +110,16 @@ const Phone: React.FC<{f: number}> = ({f}) => {
             </svg>
           </div>
           <div>
-            <div style={{fontFamily: SANS, fontWeight: 600, fontSize: 24, color: COL.ink}}>Trainers</div>
-            <div style={{fontFamily: MONO, fontSize: 20, color: COL.dim}}>size 9 · black</div>
+            <div style={{fontFamily: SANS, fontWeight: 600, fontSize: 24, color: COL.ink}}>Stadium tour</div>
+            <div style={{fontFamily: MONO, fontSize: 20, color: COL.dim}}>Block A · seat 12</div>
           </div>
         </div>
         <div style={{marginTop: 18, display: 'flex', justifyContent: 'space-between', fontFamily: MONO, fontSize: 20, color: COL.dim}}>
           <span>total</span>
-          <span style={{color: COL.ink}}>£59.99</span>
+          <span style={{color: COL.ink}}>£89.00</span>
         </div>
         <div style={{marginTop: 26, height: 64, borderRadius: 16, background: confirmed ? '#1f3a2b' : COL.amber, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: SANS, fontWeight: 700, fontSize: 26, color: confirmed ? COL.ok : '#1a1406', opacity: confirmed ? 1 : 0.75}}>
-          {confirmed ? 'Paid ✓' : 'Pay £59.99'}
+          {confirmed ? 'Paid ✓' : 'Pay £89.00'}
         </div>
         <div style={{marginTop: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14}}>
           {confirmed ? (
@@ -128,7 +128,7 @@ const Phone: React.FC<{f: number}> = ({f}) => {
                 <circle cx={12} cy={12} r={10} fill="none" stroke={COL.ok} strokeWidth={1.8} />
                 <path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke={COL.ok} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <div style={{fontFamily: SANS, fontWeight: 700, fontSize: 28, color: COL.ok}}>Order confirmed</div>
+              <div style={{fontFamily: SANS, fontWeight: 700, fontSize: 28, color: COL.ok}}>Ticket confirmed</div>
               <div style={{fontFamily: MONO, fontSize: 20, color: COL.dim}}>in 0.3 s</div>
             </>
           ) : (
@@ -174,7 +174,7 @@ const Jam: React.FC<{f: number}> = ({f}) => {
             CHECKOUT
           </text>
           <text x={24} y={104} fontFamily={MONO} fontSize={22} fill={COL.dim}>
-            orders waiting
+            fans waiting
           </text>
           <text x={24} y={156} fontFamily={SANS} fontWeight={800} fontSize={52} fill={COL.bad}>
             {n(Math.min(48213, 900 + (f - S.lead) * 310))}
@@ -262,7 +262,7 @@ const LANE = {x: 300, y: 900, w: 620, h: 120};
 const WORKER_Y = 1180;
 const WX = [420, 610, 800];
 type Job = {name: string};
-const JOBS: Job[] = [{name: 'send receipt'}, {name: 'update stock'}, {name: 'tell warehouse'}];
+const JOBS: Job[] = [{name: 'add to wallet'}, {name: 'update seats'}, {name: 'issue ticket'}];
 const slotX = (i: number) => LANE.x + 20 + i * 196;
 
 const Worker: React.FC<{x: number; y: number; label: string; state: 'idle' | 'busy' | 'done' | 'crashed'; f: number; hi?: boolean}> = ({x, y, label, state, f, hi}) => {
@@ -342,7 +342,7 @@ const Queue: React.FC<{f: number}> = ({f}) => {
     stock: {inQ: A.rest + 4, take: A.workers + 14, worker: 2, done: A.done, crash: Infinity},
     warehouse: {inQ: A.rest + 8, take: A.crashQ, worker: 1, done: Infinity, crash: A.crash},
   };
-  const retake = A.another; // the warehouse message goes to worker 1 after the crash
+  const retake = A.another; // the issue-ticket message goes to worker 1 after the crash
   const finalDone = A.nothing;
   if (!spike) {
     JOBS.forEach((j, i) => {
@@ -377,7 +377,7 @@ const Queue: React.FC<{f: number}> = ({f}) => {
       );
     });
   } else {
-    // Black Friday: the lane overflows, then drains as workers are added
+    // ticket day: the lane overflows, then drains as workers are added
     const shown = Math.min(30, Math.ceil(qn / 160));
     for (let k = 0; k < shown; k++) {
       const col = k % 3;
@@ -450,13 +450,15 @@ const Queue: React.FC<{f: number}> = ({f}) => {
 const Parcels: React.FC<{f: number}> = ({f}) => {
   const o = ip(f, [A.twice - 6, A.twice + 4, S.spike - 8, S.spike], [0, 1, 1, 0]);
   if (o <= 0) return null;
-  const second = ip(f, [A.ship - 4, A.ship + 4], [0, 1]);
+  const second = ip(f, [A.issueTwice - 4, A.issueTwice + 4], [0, 1]);
   const fixd = ip(f, [A.changes - 4, A.changes + 6], [0, 1]);
   const parcel = (x: number, y: number, col: string, op: number, key: string) => (
     <g key={key} opacity={op} transform={`translate(${x} ${y})`}>
-      <rect x={-46} y={-38} width={92} height={76} rx={8} fill="#2a1f10" stroke={col} strokeWidth={3} />
-      <line x1={-46} y1={-8} x2={46} y2={-8} stroke={col} strokeWidth={3} />
-      <line x1={0} y1={-38} x2={0} y2={38} stroke={col} strokeWidth={3} />
+      <path d="M -56 -32 h 112 v 22 a 10 10 0 0 0 0 20 v 22 h -112 v -22 a 10 10 0 0 0 0 -20 z" fill="#1a1406" stroke={col} strokeWidth={3} />
+      <line x1={22} y1={-30} x2={22} y2={30} stroke={col} strokeWidth={2} strokeDasharray="4 4" />
+      <text x={-40} y={8} fontFamily={MONO} fontWeight={600} fontSize={20} fill={col}>
+        A12
+      </text>
     </g>
   );
   const dup = second * (1 - fixd);
@@ -464,12 +466,12 @@ const Parcels: React.FC<{f: number}> = ({f}) => {
     <AbsoluteFill style={{opacity: o}}>
       <svg width={1080} height={1920} style={{position: 'absolute'}}>
         <text x={70} y={680} fontFamily={MONO} fontWeight={600} fontSize={24} fill={COL.dim} letterSpacing={2}>
-          WAREHOUSE · order #8812
+          TICKETS · Block A, seat 12
         </text>
         {parcel(180, 780, fixd > 0.5 ? COL.ok : COL.amber, 1, 'p1')}
-        {parcel(310, 780, COL.bad, dup, 'p2')}
+        {parcel(320, 780, COL.bad, dup, 'p2')}
         <text x={390} y={796} fontFamily={SANS} fontWeight={800} fontSize={52} fill={COL.bad} opacity={dup}>
-          ×2 shipped
+          ×2 issued
         </text>
         <text x={260} y={796} fontFamily={SANS} fontWeight={800} fontSize={52} fill={COL.ok} opacity={fixd}>
           ×1 ✓
@@ -477,7 +479,7 @@ const Parcels: React.FC<{f: number}> = ({f}) => {
       </svg>
       {/* the idempotent worker's check */}
       <div style={{position: 'absolute', left: 70, top: 960, right: 150, opacity: ip(f, [A.idem - 6, A.idem + 6], [0, 1]), fontFamily: MONO, fontSize: 24, lineHeight: 1.6, padding: '16px 22px', borderRadius: 14, background: '#121a26', border: `2px solid ${COL.violet}`}}>
-        <div style={{color: COL.violet}}>if already_shipped(#8812):</div>
+        <div style={{color: COL.violet}}>if already_issued(seat A12):</div>
         <div style={{color: COL.dim}}>{'    '}skip  # running twice changes nothing</div>
       </div>
       <div style={{position: 'absolute', right: 160, top: 660, opacity: ip(f, [A.soon - 4, A.soon + 6], [0, 1]), padding: '10px 18px', borderRadius: 999, border: `2px dashed ${COL.violet}`, fontFamily: MONO, fontSize: 20, color: COL.violet}}>
@@ -487,7 +489,7 @@ const Parcels: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-/* checkout status during Black Friday */
+/* checkout status on ticket day */
 const SpikeStatus: React.FC<{f: number}> = ({f}) => {
   const o = ip(f, [S.spike, S.spike + 10, A.gone - 14, A.gone], [0, 1, 1, 0]);
   if (o <= 0) return null;
@@ -532,7 +534,7 @@ const Frame: React.FC<{f: number}> = ({f}) => {
         <Phone f={f} />
         {f < S.lead + 20 ? (
           <div style={{position: 'absolute', left: 0, right: 0, top: 1262, textAlign: 'center', fontFamily: MONO, fontSize: 26, color: COL.dim, opacity: ip(f, [S.lead + 6, S.lead + 20], [1, 0])}}>
-            you + <span style={{color: COL.bad}}>{n(shoppers)}</span> other shoppers
+            you + <span style={{color: COL.bad}}>{n(shoppers)}</span> other fans
           </div>
         ) : null}
       </AbsoluteFill>

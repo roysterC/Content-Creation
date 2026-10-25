@@ -30,15 +30,15 @@ export const A = {
   jam: word('lead', 'traffic'),
   sameWay: word('lead', 'every'),
   charge: word('chain', 'charge'),
-  receipt: word('chain', 'receipt'),
-  stock: word('chain', 'stock'),
-  warehouse: word('chain', 'warehouse'),
+  wallet: word('chain', 'wallet'),
+  seat: word('chain', 'seat'),
+  issue: word('chain', 'issue'),
   slow: word('chain', 'slow'),
   couldWait: word('loop1', 'could'),
   chargeNow: word('queue', 'charge'),
   rest: word('queue', 'rest'),
   workers: word('queue', 'workers'),
-  confirmed: word('queue', 'order'),
+  confirmed: word('queue', 'ticket'),
   crashQ: word('loop2', 'worker'),
   done: word('ack', 'done'),
   crash: word('ack', 'crash'),
@@ -46,7 +46,7 @@ export const A = {
   another: word('ack', 'another'),
   nothing: word('ack', 'nothing'),
   twice: word('loop3', 'twice'),
-  ship: word('loop3', 'ship'),
+  issueTwice: word('loop3', 'issue'),
   idem: word('idem', 'idempotent'),
   changes: word('idem', 'changes'),
   soon: word('idem', 'full'),
@@ -60,13 +60,13 @@ export const A = {
 // the serial checkout: each step's real-ish duration
 export const STEPS = [
   {name: 'charge card', s: 0.3, at: A.charge},
-  {name: 'send receipt', s: 0.4, at: A.receipt},
-  {name: 'update stock', s: 0.2, at: A.stock},
-  {name: 'tell warehouse', s: 2.5, at: A.warehouse},
+  {name: 'add to wallet', s: 0.4, at: A.wallet},
+  {name: 'update seat map', s: 0.2, at: A.seat},
+  {name: 'issue ticket', s: 2.5, at: A.issue},
 ];
 export const SERIAL_TOTAL = STEPS.reduce((n, x) => n + x.s, 0); // 3.4 s
 
-// Black Friday: arrivals jump, the queue grows, then more workers drain it
+// ticket day: arrivals jump, the queue grows, then more workers drain it
 export const QUEUE_PEAK = 4812;
 export const queueLen = (f: number) => {
   if (f < A.grows - 10) return 0;

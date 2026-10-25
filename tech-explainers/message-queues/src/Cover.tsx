@@ -5,7 +5,7 @@ import {Explainer} from './Explainer';
 const SANS = 'Inter, sans-serif';
 const MONO = '"Plex Mono", monospace';
 
-// Cover: the hook's spinning checkout as the picture, the topic as big type.
+// Cover: the hook's spinning ticket checkout as the picture, the topic as big type.
 // Everything that matters sits inside the 3:4 band (y 240–1680) Instagram keeps on the profile grid.
 export const Cover: React.FC = () => (
   <AbsoluteFill style={{background: '#0a0e14'}}>
@@ -20,7 +20,7 @@ export const Cover: React.FC = () => (
         <br />
         queues
       </div>
-      <div style={{marginTop: 26, fontFamily: MONO, fontSize: 34, color: '#8b98a9'}}>POV: you click Pay on Black Friday…</div>
+      <div style={{marginTop: 26, fontFamily: MONO, fontSize: 34, color: '#8b98a9'}}>POV: tickets drop at 10am…</div>
     </div>
   </AbsoluteFill>
 );

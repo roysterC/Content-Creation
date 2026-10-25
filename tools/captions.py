@@ -151,7 +151,8 @@ def main(ep: Path):
                 disp.append((display(words[i]), *times[i]))
                 i += 1
         at = T['v'][cid]
-        out.append({'id': cid, 'words': [{'t': t, 's': round(at + s * FPS, 2), 'e': round(at + e * FPS, 2)} for t, s, e in disp]})
+        tidy = lambda t: re.sub(r'…[.…]+', '…', re.sub(r'\.{3,}', '…', t))  # collapse stacked dots into one ellipsis
+        out.append({'id': cid, 'words': [{'t': tidy(t), 's': round(at + s * FPS, 2), 'e': round(at + e * FPS, 2)} for t, s, e in disp]})
         print(f'{cid:8s} {len(gaps)} pauses, {len(disp)} words, {s1 - s0:.2f}s speech')
     json.dump(out, open(ep / 'src/captions.json', 'w'), indent=1, ensure_ascii=False)
     print('wrote', ep / 'src/captions.json')

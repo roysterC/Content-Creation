@@ -212,10 +212,10 @@ for f0 in range(0, T['queue'], 10):
 for k in range(36):
     place(sfx, tick(900 + 400 * rng.random(), 0.006), fr(T['lead'] + 20) + k * 0.07, 0.07, pan=rng.uniform(-0.5, 0.5))
 place(sfx, buzz(0.3), fr(word('lead', 'traffic')), 0.12)
-# chain: a blip per step, then the slow warehouse drags
-for w, p in (('charge', 880.0), ('receipt', 987.8), ('stock', 1108.7)):
+# chain: a blip per step, then the slow ticket issuing drags
+for w, p in (('charge', 880.0), ('wallet', 987.8), ('seat', 1108.7)):
     place(sfx, blip(p, 0.08, 0.025), fr(word('chain', w)), 0.15)
-wh = word('chain', 'warehouse')
+wh = word('chain', 'issue')
 d = (word('loop1', 'could') - wh) / 30
 tt = t_(d)
 place(sfx, filt(rng.standard_normal(len(tt)), 'band', [150, 700]) * (0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 3 * tt))) * np.clip(np.minimum(tt / 0.1, (d - tt) / 0.1), 0, 1), fr(wh), 0.05)
@@ -229,7 +229,7 @@ for i in range(3):
 wk = word('queue', 'workers')
 for d0 in (0, 14):
     place(sfx, tick(2200, 0.003), fr(wk + d0), 0.12)
-place(sfx, bell(1567.98, 1.4, 0.5), fr(word('queue', 'order')), 0.22)  # order confirmed
+place(sfx, bell(1567.98, 1.4, 0.5), fr(word('queue', 'ticket')), 0.22)  # ticket confirmed
 # ack: done → deleted; crash; the message comes back; nothing lost
 place(sfx, blip(1318.5, 0.1, 0.03) + 0.0, fr(word('ack', 'done')), 0.16)
 cr = word('ack', 'crash')
@@ -238,10 +238,10 @@ place(sfx, buzz(0.3), fr(cr), 0.2)
 place(sfx, whoosh(0.4, True), fr(word('ack', 'comes')), 0.18)
 place(sfx, tick(2200, 0.003), fr(word('ack', 'another')), 0.14)
 place(sfx, bell(1318.5, 1.2, 0.5), fr(word('ack', 'nothing')), 0.2)
-# loop3: one parcel… then a second one (the duplicate)
+# loop3: one ticket… then a second one for the same seat (the duplicate)
 place(sfx, boom(0.4, 160, 80, 0.08), fr(word('loop3', 'twice') - 4), 0.2)
-place(sfx, boom(0.4, 160, 80, 0.08), fr(word('loop3', 'ship')), 0.24)
-place(sfx, buzz(0.25), fr(word('loop3', 'ship') + 6), 0.16)
+place(sfx, boom(0.4, 160, 80, 0.08), fr(word('loop3', 'issue')), 0.24)
+place(sfx, buzz(0.25), fr(word('loop3', 'issue') + 6), 0.16)
 # idem: the check, the duplicate vanishes, and the teaser
 place(sfx, tick(3000, 0.003), fr(word('idem', 'idempotent')), 0.14)
 place(sfx, bell(1567.98, 1.2, 0.5), fr(word('idem', 'changes')), 0.2)
