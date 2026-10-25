@@ -266,12 +266,12 @@ for cid, at in T['v'].items():
 vo = reverb(vo, 0.5, 0.05)
 k = int(0.15 * SR)
 m = np.clip(np.convolve(mask, np.ones(k) / k, mode='same'), 0, 1)
-music *= (1 - 0.72 * m)[:, None]
+music *= (1 - 0.84 * m)[:, None]  # louder bed overall, but it dips harder under the voice
 sfx *= (1 - 0.35 * m)[:, None]  # duck effects less under the voice: owner wants them louder
 music = reverb(music, 1.2, 0.15)
 sfx = reverb(sfx, 0.9, 0.12)
-mix = music * 0.22 + sfx * 1.0 + vo * 1.3
-for _n, _b in (('music', music * 0.22), ('vo', vo * 1.3), ('sfx', sfx * 1.0)):
+mix = music * 0.4 + sfx * 1.0 + vo * 1.3
+for _n, _b in (('music', music * 0.4), ('vo', vo * 1.3), ('sfx', sfx * 1.0)):
     np.save(f'{ROOT}/out/stem-{_n}.npy', _b[: int(DUR * SR)].mean(1).astype(np.float32))
 mix = mix[: int(DUR * SR)]
 mix = np.tanh(mix * 1.1) / np.tanh(1.1)
