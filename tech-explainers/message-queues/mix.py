@@ -12,6 +12,7 @@ TTS_DIR = HERE.parents[1] / 'tools' / 'tts'  # shared Kokoro TTS install
 
 
 SR = 48000
+DUCK_MUSIC = float(__import__('os').environ.get('DUCK_MUSIC', '0.84'))  # how much the music dips under the voice (0 = not at all)
 FPS = 30
 ROOT = f'{HERE}'
 T = json.load(open(f'{ROOT}/src/timeline.json'))
@@ -266,7 +267,7 @@ for cid, at in T['v'].items():
 vo = reverb(vo, 0.5, 0.05)
 k = int(0.15 * SR)
 m = np.clip(np.convolve(mask, np.ones(k) / k, mode='same'), 0, 1)
-music *= (1 - 0.84 * m)[:, None]  # louder bed overall, but it dips harder under the voice
+music *= (1 - DUCK_MUSIC * m)[:, None]  # 0 = music never dips under the voice
 sfx *= (1 - 0.35 * m)[:, None]  # duck effects less under the voice: owner wants them louder
 music = reverb(music, 1.2, 0.15)
 sfx = reverb(sfx, 0.9, 0.12)
