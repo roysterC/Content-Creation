@@ -12,7 +12,8 @@ TTS_DIR = HERE.parents[1] / 'tools' / 'tts'  # shared Kokoro TTS install
 
 
 SR = 48000
-DUCK_MUSIC = float(__import__('os').environ.get('DUCK_MUSIC', '0.84'))  # how much the music dips under the voice (0 = not at all)
+DUCK_MUSIC = float(__import__('os').environ.get('DUCK_MUSIC', '0'))  # how much the music dips under the voice (0 = not at all: owner wants a steady bed)
+MUSIC_GAIN = float(__import__('os').environ.get('MUSIC_GAIN', '0.1'))  # steady bed, never dips: quiet enough for the voice to sit ~8–11 dB on top
 FPS = 30
 ROOT = f'{HERE}'
 T = json.load(open(f'{ROOT}/src/timeline.json'))
@@ -271,8 +272,8 @@ music *= (1 - DUCK_MUSIC * m)[:, None]  # 0 = music never dips under the voice
 sfx *= (1 - 0.35 * m)[:, None]  # duck effects less under the voice: owner wants them louder
 music = reverb(music, 1.2, 0.15)
 sfx = reverb(sfx, 0.9, 0.12)
-mix = music * 0.4 + sfx * 1.0 + vo * 1.3
-for _n, _b in (('music', music * 0.4), ('vo', vo * 1.3), ('sfx', sfx * 1.0)):
+mix = music * MUSIC_GAIN + sfx * 1.0 + vo * 1.3
+for _n, _b in (('music', music * MUSIC_GAIN), ('vo', vo * 1.3), ('sfx', sfx * 1.0)):
     np.save(f'{ROOT}/out/stem-{_n}.npy', _b[: int(DUR * SR)].mean(1).astype(np.float32))
 mix = mix[: int(DUR * SR)]
 mix = np.tanh(mix * 1.1) / np.tanh(1.1)
