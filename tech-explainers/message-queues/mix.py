@@ -13,7 +13,7 @@ TTS_DIR = HERE.parents[1] / 'tools' / 'tts'  # shared Kokoro TTS install
 
 SR = 48000
 DUCK_MUSIC = float(__import__('os').environ.get('DUCK_MUSIC', '0'))  # how much the music dips under the voice (0 = not at all: owner wants a steady bed)
-MUSIC_GAIN = float(__import__('os').environ.get('MUSIC_GAIN', '0.1'))  # steady bed, never dips: quiet enough for the voice to sit ~8–11 dB on top
+MUSIC_GAIN = float(__import__('os').environ.get('MUSIC_GAIN', '0.28'))  # steady bed, never dips; just under the earlier 'loud' 0.4, with a presence-band cut for the voice
 FPS = 30
 ROOT = f'{HERE}'
 T = json.load(open(f'{ROOT}/src/timeline.json'))
@@ -269,6 +269,8 @@ vo = reverb(vo, 0.5, 0.05)
 k = int(0.15 * SR)
 m = np.clip(np.convolve(mask, np.ones(k) / k, mode='same'), 0, 1)
 music *= (1 - DUCK_MUSIC * m)[:, None]  # 0 = music never dips under the voice
+# a fixed (never moving) cut in the music's speech-presence band, so a loud bed doesn't mask the words
+music = music - 0.55 * filt(music, 'band', [1500, 4200])
 sfx *= (1 - 0.35 * m)[:, None]  # duck effects less under the voice: owner wants them louder
 music = reverb(music, 1.2, 0.15)
 sfx = reverb(sfx, 0.9, 0.12)

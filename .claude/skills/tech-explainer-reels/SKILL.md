@@ -60,7 +60,7 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
   - Fade out at the end.
 - SFX are synced to `export_events.ts` output: a blip per event, with pitch carrying meaning (e.g. per server, up = hit, down = miss), a buzz for failures, a whoosh on scene changes and a bell on the follow pill.
 - Voice 10 dB or more above the bed in every line.
-- **Music: a steady bed that never dips under the voice** (owner's call, after hearing both). Defaults: `DUCK_MUSIC = 0`, `MUSIC_GAIN = 0.1`, so the voice sits ~8–11 dB above it. Sound effects stay prominent: `sfx × 1.0`, ducked only 35% under the voice. If a line gets crowded, lower the music gain; don't reintroduce dipping.
+- **Music: a steady, fairly loud bed that never dips under the voice** (owner's call: 'quieter but do not dip', then 'I can't hear it, slightly lower than the loud one'). Defaults: `DUCK_MUSIC = 0`, `MUSIC_GAIN = 0.28` (about 3 dB under the loud 0.4), plus a **fixed** −8 dB cut in the music's 1.5–4.2 kHz speech band so the words cut through (voice ≥ 13 dB above the bed in that band). Sound effects stay prominent: `sfx × 1.0`, ducked only 35%.
 
 ## Starting a new episode
 1. Copy `tech-explainers/message-queues` (the newest: hook → lead → value + open loops, captions, loop, no end cards) to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
