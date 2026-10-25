@@ -60,6 +60,7 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
   - Fade out at the end.
 - SFX are synced to `export_events.ts` output: a blip per event, with pitch carrying meaning (e.g. per server, up = hit, down = miss), a buzz for failures, a whoosh on scene changes and a bell on the follow pill.
 - Voice 10 dB or more above the bed in every line.
+- **The owner wants the sound effects prominent.** Mix defaults from message queues on: `music × 0.22`, `sfx × 1.0`, effects ducked only 35% under the voice (about 7 dB louder effects than earlier episodes). Lower the music before you lower the effects.
 
 ## Starting a new episode
 1. Copy `tech-explainers/message-queues` (the newest: hook → lead → value + open loops, captions, loop, no end cards) to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
