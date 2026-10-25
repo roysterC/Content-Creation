@@ -448,12 +448,12 @@ const Queue: React.FC<{f: number}> = ({f}) => {
 
 /* ───────── the duplicate shipment, then the idempotent fix ───────── */
 const Parcels: React.FC<{f: number}> = ({f}) => {
-  const o = ip(f, [A.twice - 6, A.twice + 4, S.spike - 8, S.spike], [0, 1, 1, 0]);
+  const o = ip(f, [S.loop3 + 4, S.loop3 + 14, S.spike - 8, S.spike], [0, 1, 1, 0]);  // first ticket shows as soon as the queue clears
   if (o <= 0) return null;
   const second = ip(f, [A.issueTwice - 4, A.issueTwice + 4], [0, 1]);
   const fixd = ip(f, [A.changes - 4, A.changes + 6], [0, 1]);
   const parcel = (x: number, y: number, col: string, op: number, key: string) => (
-    <g key={key} opacity={op} transform={`translate(${x} ${y})`}>
+    <g key={key} opacity={op} transform={`translate(${x} ${y}) scale(2)`}>
       <path d="M -56 -32 h 112 v 22 a 10 10 0 0 0 0 20 v 22 h -112 v -22 a 10 10 0 0 0 0 -20 z" fill="#1a1406" stroke={col} strokeWidth={3} />
       <line x1={22} y1={-30} x2={22} y2={30} stroke={col} strokeWidth={2} strokeDasharray="4 4" />
       <text x={-40} y={8} fontFamily={MONO} fontWeight={600} fontSize={20} fill={col}>
@@ -465,24 +465,24 @@ const Parcels: React.FC<{f: number}> = ({f}) => {
   return (
     <AbsoluteFill style={{opacity: o}}>
       <svg width={1080} height={1920} style={{position: 'absolute'}}>
-        <text x={70} y={680} fontFamily={MONO} fontWeight={600} fontSize={24} fill={COL.dim} letterSpacing={2}>
+        <text x={70} y={700} fontFamily={MONO} fontWeight={600} fontSize={24} fill={COL.dim} letterSpacing={2}>
           TICKETS · Block A, seat 12
         </text>
-        {parcel(180, 780, fixd > 0.5 ? COL.ok : COL.amber, 1, 'p1')}
-        {parcel(320, 780, COL.bad, dup, 'p2')}
-        <text x={390} y={796} fontFamily={SANS} fontWeight={800} fontSize={52} fill={COL.bad} opacity={dup}>
+        {parcel(260, 860, fixd > 0.5 ? COL.ok : COL.amber, 1, 'p1')}
+        {parcel(560, 860, COL.bad, dup, 'p2')}
+        <text x={140} y={1040} fontFamily={SANS} fontWeight={800} fontSize={60} fill={COL.bad} opacity={dup}>
           ×2 issued
         </text>
-        <text x={260} y={796} fontFamily={SANS} fontWeight={800} fontSize={52} fill={COL.ok} opacity={fixd}>
+        <text x={140} y={1040} fontFamily={SANS} fontWeight={800} fontSize={60} fill={COL.ok} opacity={fixd}>
           ×1 ✓
         </text>
       </svg>
       {/* the idempotent worker's check */}
-      <div style={{position: 'absolute', left: 70, top: 960, right: 150, opacity: ip(f, [A.idem - 6, A.idem + 6], [0, 1]), fontFamily: MONO, fontSize: 24, lineHeight: 1.6, padding: '16px 22px', borderRadius: 14, background: '#121a26', border: `2px solid ${COL.violet}`}}>
+      <div style={{position: 'absolute', left: 70, top: 1110, right: 150, opacity: ip(f, [A.idem - 6, A.idem + 6], [0, 1]), fontFamily: MONO, fontSize: 24, lineHeight: 1.6, padding: '16px 22px', borderRadius: 14, background: '#121a26', border: `2px solid ${COL.violet}`}}>
         <div style={{color: COL.violet}}>if already_issued(seat A12):</div>
         <div style={{color: COL.dim}}>{'    '}skip  # running twice changes nothing</div>
       </div>
-      <div style={{position: 'absolute', right: 160, top: 660, opacity: ip(f, [A.soon - 4, A.soon + 6], [0, 1]), padding: '10px 18px', borderRadius: 999, border: `2px dashed ${COL.violet}`, fontFamily: MONO, fontSize: 20, color: COL.violet}}>
+      <div style={{position: 'absolute', right: 160, top: 676, opacity: ip(f, [A.soon - 4, A.soon + 6], [0, 1]), padding: '10px 18px', borderRadius: 999, border: `2px dashed ${COL.violet}`, fontFamily: MONO, fontSize: 20, color: COL.violet}}>
         EP 12 · idempotency · soon
       </div>
     </AbsoluteFill>
