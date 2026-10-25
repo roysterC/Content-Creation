@@ -440,22 +440,22 @@ const Reshard: React.FC<{f: number}> = ({f}) => {
   );
 };
 const LOOP = 14;
-export const Explainer: React.FC = () => {
+export const Explainer: React.FC<{captions?: boolean}> = ({captions = true}) => {
   const f = useCurrentFrame();
   const loop = ip(f, [S.total - LOOP, S.total - 1], [0, 1]);
   return (
     <AbsoluteFill>
-      <Frame f={f} />
+      <Frame f={f} captions={captions} />
       {loop > 0 ? (
         <AbsoluteFill style={{opacity: loop}}>
-          <Frame f={0} />
+          <Frame f={0} captions={captions} />
         </AbsoluteFill>
       ) : null}
     </AbsoluteFill>
   );
 };
 
-const Frame: React.FC<{f: number}> = ({f}) => {
+const Frame: React.FC<{f: number; captions: boolean}> = ({f, captions}) => {
   const breathe = 1.0 + 0.012 * Math.sin((f / 90) * Math.PI);
   const teaser = ip(f, [A.consistent - 4, A.consistent + 6, S.payoff - 4, S.payoff + 6], [0, 1, 1, 0]);
   return (
@@ -487,7 +487,7 @@ const Frame: React.FC<{f: number}> = ({f}) => {
         <Headline key={i} f={f} c={c} />
       ))}
       <Progress f={f} />
-      <Captions f={f} lines={CAPS} accent={COL.amber} />
+      {captions ? <Captions f={f} lines={CAPS} accent={COL.amber} /> : null}
     </AbsoluteFill>
   );
 };

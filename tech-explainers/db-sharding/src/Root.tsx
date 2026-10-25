@@ -7,6 +7,7 @@ import {FPS, S} from './sim';
 export const Root: React.FC = () => (
   <>
     <Composition id="DbSharding" component={Explainer} durationInFrames={S.total} fps={FPS} width={1080} height={1920} />
+    <Composition id="DbShardingNoCaptions" component={Explainer} defaultProps={{captions: false}} durationInFrames={S.total} fps={FPS} width={1080} height={1920} />
     <Composition id="Cover" component={Cover} durationInFrames={120} fps={FPS} width={1080} height={1920} />
   </>
 );
