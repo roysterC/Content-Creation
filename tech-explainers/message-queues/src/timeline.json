@@ -1,0 +1,25 @@
+{
+ "hook": 0,
+ "lead": 131,
+ "chain": 321,
+ "loop1": 554,
+ "queue": 614,
+ "loop2": 862,
+ "ack": 929,
+ "loop3": 1137,
+ "idem": 1291,
+ "spike": 1478,
+ "total": 1716,
+ "v": {
+  "hook": 4,
+  "lead": 135,
+  "chain": 327,
+  "loop1": 556,
+  "queue": 620,
+  "loop2": 864,
+  "ack": 935,
+  "loop3": 1139,
+  "idem": 1297,
+  "spike": 1484
+ }
+}
