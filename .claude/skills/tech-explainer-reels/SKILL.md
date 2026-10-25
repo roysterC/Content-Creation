@@ -34,7 +34,7 @@ Don't shorten for its own sake. The owner wants episodes information-rich for th
 Also give the problem a **character or villain** where you can (the bot, the shopper, the crashing worker, the duplicate parcel). That was rate limiting's edge.
 
 Always:
-- **Captions** for the whole video (`<Captions>` at y≈1428, ≤ 3 words per chunk, spoken word in amber).
+- **Captions: under test.** The owner saw views drop once captions were added, so database sharding (#6) went out **without** them. Make every episode's `Explainer` take a `captions` prop and register both compositions (`<Id>` and `<Id>NoCaptions`); ask which to render until the test is settled (see the notes in `topics.md`). When on: `<Captions>` at y≈1428, ≤ 3 words per chunk, spoken word in amber.
 - A kicker + 2-line headline per beat (`01 · NAME` …) and the progress bar under the header.
 
 Show, don't tell: each concept is a **live, deterministic simulation** (precomputed in `src/sim.ts`) that visibly does the thing. Examples: packets routed by the algorithm, real LRU/TTL cache logic deciding HIT or MISS. Nothing on screen should be fake.

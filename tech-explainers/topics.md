@@ -18,7 +18,7 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 | 3 | Rate limiting | POV: one user is hammering your API | Token bucket drains/refills, excess bounces with 429 | ✅ v1 rendered (53.5s) · v2 draft with captions + share (57.4s), needs final render |
 | 4 | CDNs | POV: your users in Australia say your site is slow | World map, edge servers light up near users | ✅ Rendered (50.6s) |
 | 5 | Message queues | POV: tickets drop at 10am… and the page just spins | Orders pile into a queue, workers pull at their own pace | ✅ Rendered (58.0s, ticket drop, new hook → lead → open-loop structure, no end cards) |
-| 6 | Database sharding | POV: a hundred million users… and one database is taking every write | One DB splits into shards; id mod 4, range hot spot, hot key + cache, scatter-gather, mod 5 reshard (4 in 5 move) | 📝 Draft (56.3s, rate-limiting style: villain hook + series line + fix at 9s; no end cards, loops; teases #11) |
+| 6 | Database sharding | POV: a hundred million users… and one database is taking every write | One DB splits into shards; id mod 4, range hot spot, hot key + cache, scatter-gather, mod 5 reshard (4 in 5 move) | ✅ Rendered (56.3s, **no captions**: A/B test, rate-limiting style: villain hook + series line + fix at 9s; no end cards, loops; teases #11) |
 | 7 | Replication (read replicas) | POV: your database is drowning in reads | Primary takes writes, replicas serve reads, show lag | |
 | 8 | Horizontal vs vertical scaling | POV: you need to handle 10x the traffic | One server inflating vs cloning into many | |
 | 9 | Microservices vs monolith | POV: one bug just took down your whole app | A block cracking into services | |
@@ -51,3 +51,4 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 ## Notes
 - The 23 October one-off on the PHP2Shell vulnerability news was dropped: a safety check blocked it twice, even as a news-only version. Don't retry that topic.
 - Results log (add after each post: views, 3s hold, avg watch, saves, shares, where the retention graph drops):
+- 25 Oct: owner noticed videos did worse once word-by-word captions were added (rate limiting v1, the 10x outlier, had none). Database sharding is posted **without captions** as a test: compare its 3s hold and avg watch with message queues (captioned). `DbShardingNoCaptions` composition; `<Explainer captions={false}>`.
