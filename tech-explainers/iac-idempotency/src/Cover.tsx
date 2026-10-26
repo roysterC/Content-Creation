@@ -18,7 +18,7 @@ export const Cover: React.FC = () => (
       <div style={{marginTop: 30, fontFamily: SANS, fontWeight: 800, fontSize: 158, lineHeight: 0.98, letterSpacing: -5, color: '#e9eef5'}}>
         Idempotent
         <br />
-        IaC
+        infra
       </div>
       <div style={{marginTop: 26, fontFamily: MONO, fontSize: 34, color: '#8b98a9'}}>POV: the 2am retry doubled your servers</div>
     </div>

@@ -83,6 +83,16 @@ const tint = (line: string, lang: string) => {
   parts.push(<span key={k++}>{line.slice(last)}</span>);
   return parts;
 };
+// the line the voice is talking about pulses: the raw shell append, as soon as it's named
+const hiLine = (f: number, name: string, i: number) => {
+  if (name === 'main.tf' && i === 1 && f >= A.exist - 16 && f < A.compares) {
+    const p = 0.5 + 0.5 * Math.sin((f - A.exist) / 4);
+    return `rgba(57,208,255,${(0.1 + 0.16 * p).toFixed(3)})`;
+  }
+  if (name !== 'site.yml' || f < A.shell - 4 || f >= A.guard - 4 || (i !== 1 && i !== 2)) return undefined;
+  const p = 0.5 + 0.5 * Math.sin((f - A.shell) / 4);
+  return `rgba(255,77,94,${(0.1 + 0.16 * p).toFixed(3)})`;
+};
 const Editor: React.FC<{f: number}> = ({f}) => {
   const file = fileAt(f);
   const o = ip(f, [S.payoff - 4, S.payoff + 8], [1, 0]);
@@ -98,7 +108,7 @@ const Editor: React.FC<{f: number}> = ({f}) => {
       </div>
       <div style={{padding: '14px 24px', opacity: file.at === -Infinity ? 1 : changed, translate: `0 ${(1 - changed) * 10}px`}}>
         {file.lines.map((l, i) => (
-          <div key={i} style={{fontFamily: MONO, fontSize: 24, lineHeight: '42px', color: COL.ink, whiteSpace: 'pre'}}>
+          <div key={i} style={{fontFamily: MONO, fontSize: 24, lineHeight: '42px', color: COL.ink, whiteSpace: 'pre', borderRadius: 6, margin: '0 -10px', padding: '0 10px', background: hiLine(f, file.name, i)}}>
             {tint(l, file.lang)}
           </div>
         ))}
@@ -169,7 +179,7 @@ const Cloud: React.FC<{f: number}> = ({f}) => {
     slots.push({s, i: slot});
   });
   const tfWorld = wi === 2;
-  const ghosts = tfWorld ? ip(f, [A.threeTf - 4, A.threeTf + 6], [0, 1]) : 0;
+  const ghosts = tfWorld ? ip(f, [A.exist - 4, A.exist + 10], [0, 1]) : 0;
   const pulse = NO_CHANGE_RUNS.reduce((m, at) => Math.max(m, f >= at && f < at + 16 ? 1 - (f - at) / 16 : 0), 0);
   return (
     <div style={{...panel, top: 956, height: 450, opacity: o, border: `2px solid ${pulse > 0 ? COL.ok : '#223044'}`, boxShadow: pulse > 0 ? `0 0 ${40 * pulse}px rgba(61,220,132,0.35)` : undefined}}>

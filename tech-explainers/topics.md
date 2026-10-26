@@ -12,7 +12,7 @@ Every episode: **POV hook** → "expert level, in under a minute" line → 5–7
 ## Comment replies (one-offs)
 | Topic | Hook | Status |
 |---|---|---|
-| Why IaC must be idempotent (reply to a comment on consistent hashing) | POV: your pipeline re-ran at 2am… and now you're paying for two of every server | 📝 Draft (54.7s, `iac-idempotency/`: script ×3 → 9 servers; Terraform diff → "No changes"; drift put back; Ansible shell append vs lineinfile). #12 idempotency still to make, general angle (charged twice, idempotency keys) |
+| Why IaC must be idempotent (reply to a comment on consistent hashing) | POV: your pipeline re-ran at 2am… and now you're paying for two of every server | ✅ Rendered (54.7s, `iac-idempotency/`: script ×3 → 9 servers; Terraform diff → "No changes"; drift put back; Ansible shell append vs lineinfile). #12 idempotency still to make, general angle (charged twice, idempotency keys) |
 
 ## The list
 | # | Topic | POV hook | Visual idea | Status |
