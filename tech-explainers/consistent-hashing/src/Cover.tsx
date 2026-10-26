@@ -12,7 +12,7 @@ export const Cover: React.FC = () => (
     <AbsoluteFill style={{translate: '0 210px'}}>
       <Explainer captions={false} />
     </AbsoluteFill>
-    <AbsoluteFill style={{background: 'linear-gradient(#0a0e14 0%, #0a0e14 40.8%, rgba(10,14,20,0) 43.5%, rgba(10,14,20,0) 83.5%, #0a0e14 85.5%)'}} />
+    <AbsoluteFill style={{background: 'linear-gradient(#0a0e14 0%, #0a0e14 42.6%, rgba(10,14,20,0) 44.8%, rgba(10,14,20,0) 83.5%, #0a0e14 85.5%)'}} />
     <div style={{position: 'absolute', top: 300, left: 70, right: 70}}>
       <div style={{display: 'inline-block', padding: '10px 22px', borderRadius: 999, background: '#ffb020', color: '#1a1406', fontFamily: MONO, fontWeight: 600, fontSize: 30, letterSpacing: 2}}>EXPERT IN UNDER 1 MIN</div>
       <div style={{marginTop: 30, fontFamily: SANS, fontWeight: 800, fontSize: 158, lineHeight: 0.98, letterSpacing: -5, color: '#e9eef5'}}>
