@@ -1,0 +1,25 @@
+{
+ "hook": 0,
+ "series": 167,
+ "modn": 281,
+ "ring": 564,
+ "add": 743,
+ "remove": 929,
+ "lumpy": 1081,
+ "vnodes": 1242,
+ "real": 1391,
+ "payoff": 1559,
+ "total": 1743,
+ "v": {
+  "hook": 4,
+  "series": 171,
+  "modn": 287,
+  "ring": 570,
+  "add": 749,
+  "remove": 935,
+  "lumpy": 1087,
+  "vnodes": 1248,
+  "real": 1397,
+  "payoff": 1565
+ }
+}

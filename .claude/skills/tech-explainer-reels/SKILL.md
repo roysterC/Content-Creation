@@ -27,14 +27,14 @@ rate limiting (villain hook, early payoff) beating the rest on TikTok (65% 3s ho
 | **Series teaser (optional)** | An open loop to a later episode on the list | "Full episode on that soon." (idempotency, #12) |
 | **Payoff line → loop** | End on the satisfying line that returns to the hook, then the last 14 frames dissolve into frame 0 | "And that spinner? Gone." → back to the spinner |
 
-**No end cards in the video: no recap, no follow/share.** Viewers leave on cue and it hurts completion.
+**End on the 4-line recap** ("<Topic>, in 4 lines.": kicker RECAP, 4 check rows of title + mono sub line; see `consistent-hashing/src/Explainer.tsx` `Recap`), spoken over by the payoff line, then loop to frame 0. **No follow/share in the video**: viewers leave on cue and it hurts completion. (Owner brought the recap back on 26 Oct after trying without.)
 The asks live in the **post caption** and a **pinned comment** instead (e.g. "Part 2 on idempotency coming 👀 follow so you don't miss it").
 Don't shorten for its own sake. The owner wants episodes information-rich for the people who stay (~55–58s is fine, < 60s).
 
 Also give the problem a **character or villain** where you can (the bot, the shopper, the crashing worker, the duplicate parcel). That was rate limiting's edge.
 
 Always:
-- **Captions: under test.** The owner saw views drop once captions were added, so database sharding (#6) went out **without** them. Make every episode's `Explainer` take a `captions` prop and register both compositions (`<Id>` and `<Id>NoCaptions`); ask which to render until the test is settled (see the notes in `topics.md`). When on: `<Captions>` at y≈1428, ≤ 3 words per chunk, spoken word in amber.
+- **No captions** (owner's call, 26 Oct, after views dropped once captions were added). `Explainer` takes `captions` (default `false`); keep a `<Id>Captions` composition only for comparison.
 - A kicker + 2-line headline per beat (`01 · NAME` …) and the progress bar under the header.
 
 Show, don't tell: each concept is a **live, deterministic simulation** (precomputed in `src/sim.ts`) that visibly does the thing. Examples: packets routed by the algorithm, real LRU/TTL cache logic deciding HIT or MISS. Nothing on screen should be fake.
@@ -63,7 +63,7 @@ Show, don't tell: each concept is a **live, deterministic simulation** (precompu
 - **Music: a steady, fairly loud bed that never dips under the voice** (owner's call: 'quieter but do not dip', then 'I can't hear it, slightly lower than the loud one'). Defaults: `DUCK_MUSIC = 0`, `MUSIC_GAIN = 0.28` (about 3 dB under the loud 0.4), plus a **fixed** −8 dB cut in the music's 1.5–4.2 kHz speech band so the words cut through (voice ≥ 13 dB above the bed in that band). Sound effects stay prominent: `sfx × 1.0`, ducked only 35%.
 
 ## Starting a new episode
-1. Copy `tech-explainers/message-queues` (the newest: hook → lead → value + open loops, captions, loop, no end cards) to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
+1. Copy `tech-explainers/consistent-hashing` (the newest: villain hook → series line → rapid twists → 4-line recap, no captions, loop) to `tech-explainers/<topic>`. Rename the composition ids and the audio file names.
 2. Write the VO as separate lines: hook, lead, then value / open-loop pairs, ending on the payoff line. Keep total speech ≤ 53s so the video stays under 60s.
    - Update `LINES` in `vo.py` (and `FIXES` for any initialisms) and run it.
    - Add `CAPTION_SUBS` for anything that should read differently from how it's spoken, e.g. `{'four twenty-nine': '429', 'ten requests': '10 requests'}`.

@@ -2,7 +2,7 @@
 
 **This is the canonical order. Make episodes in list order (next = the first one not done) unless the owner picks another.**
 
-Every episode: **POV hook** → "expert level, in under a minute" card → 4–6 concept scenes → recap → follow → share ("send this to a friend…"). Captions throughout. Under 60s.
+Every episode: **POV hook** → "expert level, in under a minute" line → 5–7 rapid concept beats (each a "but…" twist) → **4-line recap** → loops to frame 0. **No captions**, no follow/share in the video. Under 60s.
 
 ## Done before the list
 | Topic | Hook | Status |
@@ -18,12 +18,12 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 | 3 | Rate limiting | POV: one user is hammering your API | Token bucket drains/refills, excess bounces with 429 | ✅ v1 rendered (53.5s) · v2 draft with captions + share (57.4s), needs final render |
 | 4 | CDNs | POV: your users in Australia say your site is slow | World map, edge servers light up near users | ✅ Rendered (50.6s) |
 | 5 | Message queues | POV: tickets drop at 10am… and the page just spins | Orders pile into a queue, workers pull at their own pace | ✅ Rendered (58.0s, ticket drop, new hook → lead → open-loop structure, no end cards) |
-| 6 | Database sharding | POV: a hundred million users… and one database is taking every write | One DB splits into shards; id mod 4, range hot spot, hot key + cache, scatter-gather, mod 5 reshard (4 in 5 move) | ✅ Rendered (56.3s, **no captions**: A/B test, rate-limiting style: villain hook + series line + fix at 9s; no end cards, loops; teases #11) |
+| 6 | Database sharding | POV: a hundred million users… and one database is taking every write | One DB splits into shards; id mod 4, range hot spot, hot key + cache, scatter-gather, mod 5 reshard (4 in 5 move) | ✅ Rendered + posted (56.3s, **no captions**: A/B test, rate-limiting style: villain hook + series line + fix at 9s; no end cards, loops; teases #11) |
 | 7 | Replication (read replicas) | POV: your database is drowning in reads | Primary takes writes, replicas serve reads, show lag | |
 | 8 | Horizontal vs vertical scaling | POV: you need to handle 10x the traffic | One server inflating vs cloning into many | |
 | 9 | Microservices vs monolith | POV: one bug just took down your whole app | A block cracking into services | |
 | 10 | CAP theorem | POV: the network between your data centres just broke | Pick two of three, visualised | |
-| 11 | Consistent hashing | POV: you added one server and every cache key moved | Hash ring, keys only move to the neighbour | |
+| 11 | Consistent hashing | POV: you add one more server to survive the rush… and the whole site gets slower | Cache row: mod 4 → 5 moves 33/40 keys, hit rate crashes; ring from real hashes; add E moves 8/40; B dies → only its 7 keys move; lumpy (C 45%) → 100 vnodes ≈ 25% each | 📝 Draft (58.1s, no captions, 4-line recap, part 2 of sharding) |
 | 12 | Idempotency | POV: your customer got charged twice | Retried request with vs without an idempotency key | |
 | **How the internet works** |||||
 | 13 | DNS | POV: you type google.com and press enter | Resolver → root → TLD → nameserver | |
@@ -52,3 +52,4 @@ Every episode: **POV hook** → "expert level, in under a minute" card → 4–6
 - The 23 October one-off on the PHP2Shell vulnerability news was dropped: a safety check blocked it twice, even as a news-only version. Don't retry that topic.
 - Results log (add after each post: views, 3s hold, avg watch, saves, shares, where the retention graph drops):
 - 25 Oct: owner noticed videos did worse once word-by-word captions were added (rate limiting v1, the 10x outlier, had none). Database sharding is posted **without captions** as a test: compare its 3s hold and avg watch with message queues (captioned). `DbShardingNoCaptions` composition; `<Explainer captions={false}>`.
+- 26 Oct: owner's call: **no captions from now on**, and **bring back the 4-line recap** at the end (no follow/share; the recap loops back to the hook). Consistent hashing (#11) made next as part 2 of sharding.
