@@ -1,0 +1,23 @@
+{
+ "hook": 0,
+ "series": 182,
+ "script": 325,
+ "declare": 523,
+ "diff": 672,
+ "why": 877,
+ "drift": 1105,
+ "catch": 1237,
+ "payoff": 1431,
+ "total": 1641,
+ "v": {
+  "hook": 4,
+  "series": 186,
+  "script": 331,
+  "declare": 529,
+  "diff": 678,
+  "why": 883,
+  "drift": 1111,
+  "catch": 1243,
+  "payoff": 1437
+ }
+}
