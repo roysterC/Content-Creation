@@ -103,7 +103,7 @@ const Phone: React.FC<{f: number}> = ({f}) => {
           <span>total</span>
           <span style={{color: COL.ink}}>£{PRICE}.00</span>
         </div>
-        <div style={{position: 'relative', marginTop: 24, height: 66, borderRadius: 16, background: st.state === 'paid' ? '#1f3a2b' : COL.amber, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: SANS, fontWeight: 700, fontSize: 27, color: st.state === 'paid' ? COL.ok : '#1a1406', opacity: st.state === 'processing' ? 0.7 : 1}}>
+        <div style={{position: 'relative', marginTop: 24, height: 66, borderRadius: 16, background: st.state === 'paid' ? '#1f3a2b' : COL.amber, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: SANS, fontWeight: 700, fontSize: 27, color: st.state === 'paid' ? COL.ok : '#1a1406', opacity: st.state === 'processing' ? 0.7 : 1, boxShadow: wi === 0 && f >= 28 && f < A.tap ? `0 0 ${18 + 16 * Math.sin((f - 28) / 3)}px rgba(255,176,32,0.8)` : undefined}}>
           {st.state === 'paid' ? 'Paid ✓' : `Pay £${PRICE}.00`}
           {/* tap ripples */}
           {TAPS.filter((t) => t.world === wi && f >= t.at && f < t.at + 18).map((t) => {
@@ -220,7 +220,7 @@ const Ledger: React.FC<{f: number}> = ({f}) => {
           );
         })}
         {twice ? (
-          <div style={{marginTop: 18, textAlign: 'center', whiteSpace: 'nowrap', fontFamily: SANS, fontWeight: 800, fontSize: 38, color: COL.bad, scale: String(ip(f, [rows[1].at, rows[1].at + 8], [1.4, 1], pop))}}>CHARGED TWICE</div>
+          <div style={{marginTop: 18, textAlign: 'center', whiteSpace: 'nowrap', fontFamily: SANS, fontWeight: 800, fontSize: 33, letterSpacing: -0.5, color: COL.bad, scale: String(ip(f, [rows[1].at, rows[1].at + 8], [1.4, 1], pop) * (1 + 0.035 * Math.sin((f - rows[1].at) / 5))), opacity: 0.8 + 0.2 * Math.sin((f - rows[1].at) / 5)}}>CHARGED TWICE</div>
         ) : rows.length === 1 && (worldAt(f) === 2 || worldAt(f) === 3) ? (
           <div style={{marginTop: 18, textAlign: 'center', fontFamily: SANS, fontWeight: 800, fontSize: 36, color: COL.ok, opacity: ip(f, [rows[0].at + 10, rows[0].at + 20], [0, 1])}}>charged once ✓</div>
         ) : null}

@@ -29,7 +29,7 @@ Every episode: **POV hook** → "expert level, in under a minute" line → 5–7
 | 9 | Microservices vs monolith | POV: one bug just took down your whole app | A block cracking into services | |
 | 10 | CAP theorem | POV: the network between your data centres just broke | Pick two of three, visualised | |
 | 11 | Consistent hashing | POV: you add one more server to survive the rush… and the whole site gets slower | Cache row: mod 4 → 5 moves 33/40 keys, hit rate crashes; ring from real hashes; add E moves 8/40; B dies → only its 7 keys move; lumpy (C 45%) → 100 vnodes ≈ 25% each | ✅ Rendered (58.1s, no captions, 4-line recap, part 2 of sharding) |
-| 12 | Idempotency | **Curiosity hook (new style test):** "Here's what actually happens when you tap Pay twice." | Lost reply → double charge; idempotency key, replay, Stripe header, 409 lock for parallel taps, key must come from the app | 📝 Draft (53.3s, no captions, 4-line recap; first non-POV hook: compare its 3s hold with the POV episodes) |
+| 12 | Idempotency | **Curiosity hook (new style test):** "Here's what actually happens when you tap Pay twice." | Lost reply → double charge; idempotency key, replay, Stripe header, 409 lock for parallel taps, key must come from the app | ✅ Rendered (53.3s, no captions, 4-line recap; first non-POV hook: compare its 3s hold with the POV episodes) |
 | **How the internet works** |||||
 | 13 | DNS | POV: you type google.com and press enter | Resolver → root → TLD → nameserver | |
 | 14 | HTTPS / TLS | POV: you're on café Wi-Fi typing your password | Handshake + padlock, plain text → scrambled | |
