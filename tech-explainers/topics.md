@@ -17,7 +17,7 @@ Every episode: **POV hook** → "expert level, in under a minute" line → 5–7
 ## Deep dives (no 60s cap: owner said length is fine if the value is high)
 | Topic | Hook | Status |
 |---|---|---|
-| Idempotency in a real system (delivery app) | POV: you order dinner once… and two drivers turn up | 📝 Draft (93.4s, `delivery-idempotency/`: build the order flow, ON vs TOGGLE, set vs subtract, phone retry + order key, key reuse → reject, queue redelivery → 2nd driver → one-driver-per-order rule, payment retry with the same key, the rule, 4-line recap). Made after #12 (curiosity hook) did badly |
+| Idempotency in a real system (delivery app) | POV: you order dinner once… and two drivers turn up | ✅ Rendered (93.4s, `delivery-idempotency/`: build the order flow, ON vs TOGGLE, set vs subtract, phone retry + order key, key reuse → reject, queue redelivery → 2nd driver → one-driver-per-order rule, payment retry with the same key, the rule, 4-line recap). Made after #12 (curiosity hook) did badly |
 
 ## The list
 | # | Topic | POV hook | Visual idea | Status |

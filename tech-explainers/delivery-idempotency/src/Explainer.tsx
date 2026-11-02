@@ -129,7 +129,7 @@ const MapView: React.FC<{f: number; x: number; y: number; w: number; h: number; 
 /* hook: the full-screen map + two "on the way" notifications, then it shrinks away as the system builds */
 const HookMap: React.FC<{f: number}> = ({f}) => {
   if (f >= S.idea) return null;
-  const t = ip(f, [S.lead + 4, S.lead + 40], [0, 1], glide);
+  const t = ip(f, [S.lead + 4, S.lead + 68], [0, 1], glide);
   const o = ip(f, [S.idea - 30, S.idea - 6], [1, 0]);
   const x = lerp(70, BOTTOM.x, t);
   const y = lerp(560, BOTTOM.y, t);
@@ -212,7 +212,7 @@ const Wires: React.FC<{f: number}> = ({f}) => {
   for (const m of AMBIENT) {
     if (f < m.at || f >= m.at + PKT_DUR || !edgeOn(m.edge)) continue;
     const p = ptAt(E[m.edge], ip(f, [m.at, m.at + PKT_DUR], [0, 1], glide));
-    out.push(<circle key={`a${m.at}`} cx={p.x} cy={p.y} r={5} fill={COL.dim} opacity={0.55} />);
+    out.push(<circle key={`a${m.at}`} cx={p.x} cy={p.y} r={6.5} fill={COL.dim} opacity={0.8} />);
   }
   // the story's packets
   for (const k of PKTS) {
@@ -363,7 +363,7 @@ const Switch: React.FC<{f: number; x: number; label: string; presses: number[]; 
       <div style={{fontFamily: MONO, fontWeight: 600, fontSize: 26, color: col, letterSpacing: 3}}>{label}</div>
       {/* bulb */}
       <svg width={180} height={220} viewBox="0 0 100 120" style={{marginTop: 26}}>
-        {on ? <circle cx={50} cy={45} r={48} fill={COL.amber} opacity={0.22} /> : null}
+        {on ? <circle cx={50} cy={45} r={44 + 4 * Math.sin(f / 5)} fill={COL.amber} opacity={0.18 + 0.08 * Math.sin(f / 5)} /> : null}
         <path d="M50 8 a34 34 0 0 1 20 61 v14 h-40 v-14 a34 34 0 0 1 20 -61 z" fill={on ? '#ffd166' : '#1c2838'} stroke={on ? COL.amber : '#3a4f6a'} strokeWidth={3} />
         <rect x={34} y={87} width={32} height={8} rx={3} fill="#3a4f6a" />
         <rect x={37} y={98} width={26} height={8} rx={3} fill="#3a4f6a" />

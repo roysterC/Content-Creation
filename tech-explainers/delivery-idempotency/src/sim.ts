@@ -264,8 +264,8 @@ export const IN_FLIGHT = [
 // ── the map: drivers heading to your door ──
 export type Ride = {name: string; col: string; start: number; end: number; path: Pt[]};
 // map coords are 0..1 inside whatever box draws the map
-const P1: Pt[] = [{x: 0.18, y: 0.2}, {x: 0.18, y: 0.55}, {x: 0.62, y: 0.55}, {x: 0.62, y: 0.78}];
-const P2: Pt[] = [{x: 0.92, y: 0.22}, {x: 0.92, y: 0.4}, {x: 0.62, y: 0.4}, {x: 0.62, y: 0.78}];
+const P1: Pt[] = [{x: 0.18, y: 0.2}, {x: 0.18, y: 0.55}, {x: 0.62, y: 0.55}, {x: 0.62, y: 0.71}]; // arrives from above
+const P2: Pt[] = [{x: 0.92, y: 0.22}, {x: 0.92, y: 0.8}, {x: 0.71, y: 0.8}]; // arrives from the right
 export const HOME: Pt = {x: 0.62, y: 0.8};
 export const SHOP: Pt = {x: 0.18, y: 0.18};
 export const RIDES_HOOK: Ride[] = [
@@ -320,6 +320,6 @@ export const AMBIENT = (() => {
   const out: {edge: EdgeName; at: number}[] = [];
   const edges: EdgeName[] = ['phoneApi', 'apiQueue', 'queueKitchen', 'queueDispatch', 'apiPay'];
   let k = 0;
-  for (let t = S.lead + 40; t < S.payoff; t += 9, k++) out.push({edge: edges[k % edges.length], at: t});
+  for (let t = S.lead + 40; t < S.payoff; t += 6, k++) out.push({edge: edges[k % edges.length], at: t});
   return out;
 })();
