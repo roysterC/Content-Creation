@@ -14,6 +14,11 @@ Every episode: **POV hook** → "expert level, in under a minute" line → 5–7
 |---|---|---|
 | Why IaC must be idempotent (reply to a comment on consistent hashing) | POV: your pipeline re-ran at 2am… and now you're paying for two of every server | ✅ Rendered (54.7s, `iac-idempotency/`: script ×3 → 9 servers; Terraform diff → "No changes"; drift put back; Ansible shell append vs lineinfile). #12 idempotency still to make, general angle (charged twice, idempotency keys) |
 
+## Deep dives (no 60s cap: owner said length is fine if the value is high)
+| Topic | Hook | Status |
+|---|---|---|
+| Idempotency in a real system (delivery app) | POV: you order dinner once… and two drivers turn up | 📝 Draft (93.4s, `delivery-idempotency/`: build the order flow, ON vs TOGGLE, set vs subtract, phone retry + order key, key reuse → reject, queue redelivery → 2nd driver → one-driver-per-order rule, payment retry with the same key, the rule, 4-line recap). Made after #12 (curiosity hook) did badly |
+
 ## The list
 | # | Topic | POV hook | Visual idea | Status |
 |---|---|---|---|---|
